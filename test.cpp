@@ -41,7 +41,7 @@ void test_Token_main(){
 	print_test_name("Token_main");
 	
 	using namespace Token_space;
-	list<Token> lst;
+	list<Token*> lst;
 	
 	Num num1 (239);
 	Num num2 (1);
@@ -64,10 +64,10 @@ void test_Token_main(){
 	cout << tok1 << '\n';
 	cout << opr1 << '\n';
 	
-	lst << tok1;
-	lst << num2;
-	lst << opr1;
-	lst << num1;
+	lst << &tok1;
+	lst << &num2;
+	lst << &opr1;
+	lst << &num1;
 	
 	cout << lst;
 }
@@ -80,7 +80,7 @@ void test_Token_parse(){
 	/////
 	char str1[] = "  123 +100 + (   400+)  ";
 	
-	list<Token> list_of_Tokens = Token_space::parse_to_Token_list(str1);
+	list<Token*> list_of_Tokens = Token_space::parse_to_Token_list(str1);
 	cout << list_of_Tokens;
 
 }

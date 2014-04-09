@@ -33,13 +33,13 @@ ostream& operator<<(ostream& str, const Token& token) {
 	return str;
 }
 	
-ostream& operator<<(ostream& str, list<Token> lst) { // conflict with list - list
+ostream& operator<<(ostream& str, list<Token*> lst) { // conflict with list - list
 	cout << "list<Token>[ ";
-	for(list<Token>::const_iterator iter = lst.begin();
+	for(list<Token*>::const_iterator iter = lst.begin();
 			iter != lst.end(); 
 			iter++){
 		//cout << *iter << " ";
-		cout << "             " << *iter << '\n';
+		cout << "             " << (**iter).to_string() << '\n';
 	}
 	cout << "]\n";
 	return str;

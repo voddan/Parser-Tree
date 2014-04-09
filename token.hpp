@@ -36,17 +36,18 @@ class Token{
 		const string name() const {return _name;}
 		//---------------------------------
 		
-		virtual string to_string() const{
+		virtual string to_string() const// = 0;
+		{
 			ostringstream str;
 			str << "Token(" << _name << ")";
 			return str.str();
-		}
+		} //*/
 		
 		//~ static  void parse(const char* str, list<Token>& lst) {
 			//~ //return parse_(str, lst);
 			//~ //return 
 		//~ }
-		//char* parse(const char* str, list<Token>& lst); // how do i use 'const'?
+		//char* parse(const char* str, list<Token>& lst); // how make me to override?
 	private:
 		const string _name;
 };
@@ -61,7 +62,7 @@ class Num: public Token{
 			return str.str();
 		}
 		
-		static const char* parse(const char* pointer, list<Token>& lst){
+		static const char* parse(const char* pointer, list<Token*>& lst){ //////&
 			char ch;
 			
 			if( !isdigit(ch = *pointer) ) return pointer;
@@ -75,7 +76,7 @@ class Num: public Token{
 				num += char_to_int(ch);
 			}
 			
-			lst.push_back(Num(num));
+			lst.push_back(new Num(num));
 			return pointer;
 		}
 		
@@ -101,9 +102,9 @@ class Plus : public B_Oper {
 	public: 
 		Plus() : B_Oper("+") {}
 	
-		static const char* parse(const char* pointer, list<Token>& lst){
+		static const char* parse(const char* pointer, list<Token*>& lst){
 			if( '+' == *pointer ){
-				lst.push_back(Plus());
+				lst.push_back(new Plus());
 				pointer += 1;
 			}
 			return pointer;
@@ -120,9 +121,9 @@ class Brack_L: public Token{
 			return str.str();
 		}
 		
-		static const char* parse(const char* pointer, list<Token>& lst){
+		static const char* parse(const char* pointer, list<Token*>& lst){
 			if( '(' == *pointer ){
-				lst.push_back(Brack_L());
+				lst.push_back(new Brack_L());
 				pointer += 1;
 			}
 			return pointer;
@@ -139,9 +140,9 @@ class Brack_R: public Token{
 			return str.str();
 		}
 		
-		static const char* parse(const char* pointer, list<Token>& lst){
+		static const char* parse(const char* pointer, list<Token*>& lst){
 			if( ')' == *pointer ){
-				lst.push_back(Brack_R());
+				lst.push_back(new Brack_R());
 				pointer += 1;
 			}
 			return pointer;
@@ -149,20 +150,24 @@ class Brack_R: public Token{
 };
 
 } // namespace Token_space
+////////////////////////////////////////////////////////////////////////
 
-
-namespace Token_space {
-list<Token> parse_to_Token_list(string str);
-
-const char* parse_space(const char* pointer, list<Token>& lst){  // const ???
+const char* parse_space(const char* pointer, list<Token_space::Token*>& lst){  // const ??? (char const * str)
 	while(' ' == *pointer)
 		pointer += 1;
 	return pointer;
 }
 
-list<Token> parse_to_Token_list(string str){
+namespace Token_space {
+list<Token*> parse_to_Token_list(string str);
+}// namespace Token_space
+
+// implementation
+// must be in a .cpp file
+namespace Token_space {
+list<Token*> parse_to_Token_list(string str){
 	using namespace Token_space;
-	typedef const char* (*Parse_function)(const char*, list<Token>&);
+	typedef const char* (*Parse_function)(const char*, list<Token*>&);
 	
 	list<Parse_function> parse_func_list;
 	
@@ -173,7 +178,7 @@ list<Token> parse_to_Token_list(string str){
 	
 	parse_func_list.push_front(parse_space);
 	//--------------------------------------------------------------
-	list<Token> lst;
+	list<Token*> lst;
 	
 	const char* pointer  = &str[0];
 	

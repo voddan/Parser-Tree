@@ -51,7 +51,7 @@ int main(){
 	
 	std::cout << "'" << str1 << "'\n";
 	
-	list<Token> list_of_Tokens = Token_space::parse_to_Token_list(str1);
+	list<Token*> list_of_Tokens = Token_space::parse_to_Token_list(str1);
 	cout << list_of_Tokens;
 	
 	

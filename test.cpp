@@ -20,6 +20,7 @@ typedef Token_space::Token Token;
 typedef Expr_Tree_space::Expression Expression;
 //----------------------------------------------------------------------
 void print_test_name(string name){
+	cout << "#!---------------\n";
 	cout << "#!--" << name << "--\n";
 }
 
@@ -75,10 +76,12 @@ void test_Token_parse(){
 	print_test_name("Token_parse");
 	
 	using namespace Token_space;
-	typedef const char* (*Parse_function)(const char*, list<Token>&);
 	
-	list<Parse_function> parse_func_list;
-	parse_func_list << Num::parse << Plus::parse;
+	/////
+	char str1[] = "  123 +100 + (   400+)  ";
+	
+	list<Token> list_of_Tokens = Token_space::parse_to_Token_list(str1);
+	cout << list_of_Tokens;
 
 }
 

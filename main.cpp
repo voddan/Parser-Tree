@@ -37,13 +37,13 @@
 #include "utils.hpp"
 
 using namespace std;
-using namespace Utils_space; // how do i call spaces?
+using namespace Utils_space; // how do i call spaces?  
 
 typedef Token_space::Token Token;
 typedef Expr_Tree_space::Expression Expression;
 //----------------------------------------------------------------------
 
-char str1[] = "  123 +100 + (   400+)";
+char str1[] = "  123 +100 + (   400+) ";
 list<Token> parse_to_Token_list(string str);
 
 ////////////////////////////////////////////////////////////////////////

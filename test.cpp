@@ -10,14 +10,14 @@
 #include <list>
 
 #include "token.hpp"
-#include "expr-tree.hpp"
+#include "expr_tree.hpp"
 #include "utils.hpp"
 
 using namespace std;
-using namespace Utils_space;
+using namespace utils;
 
-typedef Token_space::Token Token;
-typedef Expr_Tree_space::Expression Expression;
+typedef token::Token Token;
+typedef expr_tree::Expression Expression;
 //----------------------------------------------------------------------
 void print_test_name(string name){
 	cout << "#!---------------\n";
@@ -40,7 +40,7 @@ int main(){
 void test_Token_main(){
 	print_test_name("Token_main");
 	
-	using namespace Token_space;
+	using namespace token;
 	list<Token*> lst;
 	
 	Num num1 (239);
@@ -75,12 +75,12 @@ void test_Token_main(){
 void test_Token_parse(){
 	print_test_name("Token_parse");
 	
-	using namespace Token_space;
+	using namespace token;
 	
 	/////
 	char str1[] = "  123 +100 + (   400+)  ";
 	
-	list<Token*> list_of_Tokens = Token_space::parse_to_Token_list(str1);
+	list<Token*> list_of_Tokens = token::parse_to_Token_list(str1);
 	cout << list_of_Tokens;
 
 }

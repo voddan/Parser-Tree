@@ -9,7 +9,7 @@
  * main.cpp		run the progream (interface)
  * test.cpp		runs all tests
  * token.hpp
- * expr-tree.hpp
+ * expr_tree.hpp
  * 
  * Program functionality:
  *   *To parse strings of:
@@ -33,14 +33,14 @@
 #include <list>
 
 #include "token.hpp"
-#include "expr-tree.hpp"
+#include "expr_tree.hpp"
 #include "utils.hpp"
 
 using namespace std;
-using namespace Utils_space; // how do i call spaces?  
+using namespace utils; // how do i call spaces?  1
 
-typedef Token_space::Token Token;
-typedef Expr_Tree_space::Expression Expression;
+typedef token::Token Token;
+typedef expr_tree::Expression Expression;
 //----------------------------------------------------------------------
 
 char str1[] = "  123 +100 + (   400+)  ";
@@ -49,9 +49,9 @@ list<Token> parse_to_Token_list(string str);
 ////////////////////////////////////////////////////////////////////////
 int main(){
 	
-	std::cout << "'" << str1 << "'\n";
+	std::cout << "'" << str1 << "'\n\n";
 	
-	list<Token*> list_of_Tokens = Token_space::parse_to_Token_list(str1);
+	list<Token*> list_of_Tokens = token::parse_to_Token_list(str1);
 	cout << list_of_Tokens;
 	
 	
@@ -68,7 +68,7 @@ const char* parse_space(const char* pointer, list<Token>& lst){  // const ???
 }
 
 list<Token> parse_to_Token_list(string str){
-	using namespace Token_space;
+	using namespace token;
 	typedef const char* (*Parse_function)(const char*, list<Token>&);
 	
 	list<Parse_function> parse_func_list;

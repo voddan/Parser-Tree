@@ -23,7 +23,7 @@
 
 using namespace std;
 
-namespace Token_space{ // namespace Token_space
+namespace token{ // namespace token
 	
 inline int char_to_int(char ch) {
 	assert( isdigit(ch) );
@@ -149,24 +149,24 @@ class Brack_R: public Token{
 		}
 };
 
-} // namespace Token_space
+} // namespace token
 ////////////////////////////////////////////////////////////////////////
 
-const char* parse_space(const char* pointer, list<Token_space::Token*>& lst){  // const ??? (char const * str)
+const char* parse_space(const char* pointer, list<token::Token*>& lst){  // const ??? (char const * str)
 	while(' ' == *pointer)
 		pointer += 1;
 	return pointer;
 }
 
-namespace Token_space {
+namespace token {
 list<Token*> parse_to_Token_list(string str);
-}// namespace Token_space
+}// namespace token
 
 // implementation
 // must be in a .cpp file
-namespace Token_space {
+namespace token {
 list<Token*> parse_to_Token_list(string str){
-	using namespace Token_space;
+	using namespace token;
 	typedef const char* (*Parse_function)(const char*, list<Token*>&);
 	
 	list<Parse_function> parse_func_list;
@@ -193,6 +193,6 @@ list<Token*> parse_to_Token_list(string str){
 	return lst;
 }
 
-}// namespace Token_space
+}// namespace token
 
 #endif // _TOKEN_HPP_

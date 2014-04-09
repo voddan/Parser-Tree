@@ -13,15 +13,15 @@
 #include <list>
 
 #include "token.hpp"
-#include "expr-tree.hpp"
+#include "expr_tree.hpp"
 
 using namespace std;
 
-typedef Token_space::Token Token;
-typedef Expr_Tree_space::Expression Expression;
+typedef token::Token Token;
+typedef expr_tree::Expression Expression;
 //----------------------------------------------------------------------
 
-namespace Utils_space{ // namespace Utils_space
+namespace utils{ // namespace utils
 	
 ostream& operator<<(ostream& str, const Expression& expr) {
 	str << expr.to_string(); 
@@ -34,12 +34,11 @@ ostream& operator<<(ostream& str, const Token& token) {
 }
 	
 ostream& operator<<(ostream& str, list<Token*> lst) { // conflict with list - list
-	cout << "list<Token>[ ";
+	cout << "list<Token>[ \n";
 	for(list<Token*>::const_iterator iter = lst.begin();
 			iter != lst.end(); 
 			iter++){
-		//cout << *iter << " ";
-		cout << "             " << (**iter).to_string() << '\n';
+		cout << "             " << (**iter) << '\n';		// why does it work??
 	}
 	cout << "]\n";
 	return str;
@@ -54,6 +53,6 @@ list<T>& operator<<(
 }
 
 
-} // namespace Utils_space
+} // namespace utils
 
 #endif // _UTILS_HPP_

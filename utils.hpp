@@ -33,9 +33,9 @@ ostream& operator<<(ostream& str, const Token& token) {
 	return str;
 }
 	
-ostream& operator<<(ostream& str, list<Token*> lst) { // conflict with list - list
+ostream& operator<<(ostream& str, token::list_Token& lst) { // conflict with list - list
 	cout << "list<Token>[ \n";
-	for(list<Token*>::const_iterator iter = lst.begin();
+	for(token::list_Token::const_iterator iter = lst.begin();
 			iter != lst.end(); 
 			iter++){
 		cout << "             " << (**iter) << '\n';		// why does it work??

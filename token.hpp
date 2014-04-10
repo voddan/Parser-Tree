@@ -16,6 +16,7 @@
 #include <string>
 #include <algorithm>
 #include <sstream>
+#include <iostream>
 #include <list>
 
 #include <cctype>
@@ -52,6 +53,36 @@ class Token{
 		const string _name;
 };
 
+class list_Token: public list<Token*> {
+	public:
+		//*
+		~list_Token() {
+			std::cout << "list_Token is out\n";
+			for(list_Token::iterator iter = this->begin();
+					iter != this->end();
+					iter++) {
+				delete *iter;
+			}
+		} // */
+		
+		/*
+		list_Token() {
+			std::cout << "list_Token is in\n";
+		} 
+		
+		~list_Token() {
+			std::cout << "list_Token is out\n";
+		} // */
+		
+		
+};
+
+} // namespace token
+////////////////////////////////////////////////////////////////////////
+
+
+namespace token {
+
 class Num: public Token{
 	public:
 		Num(int value) : Token("Num"), _value(value) {}
@@ -62,7 +93,7 @@ class Num: public Token{
 			return str.str();
 		}
 		
-		static const char* parse(const char* pointer, list<Token*>& lst){ //////&
+		static const char* parse(const char* pointer, list_Token& lst){ //////&
 			char ch;
 			
 			if( !isdigit(ch = *pointer) ) return pointer;
@@ -102,7 +133,7 @@ class Plus : public B_Oper {
 	public: 
 		Plus() : B_Oper("+") {}
 	
-		static const char* parse(const char* pointer, list<Token*>& lst){
+		static const char* parse(const char* pointer, list_Token& lst){
 			if( '+' == *pointer ){
 				lst.push_back(new Plus());
 				pointer += 1;
@@ -121,7 +152,7 @@ class Brack_L: public Token{
 			return str.str();
 		}
 		
-		static const char* parse(const char* pointer, list<Token*>& lst){
+		static const char* parse(const char* pointer, list_Token& lst){
 			if( '(' == *pointer ){
 				lst.push_back(new Brack_L());
 				pointer += 1;
@@ -140,7 +171,7 @@ class Brack_R: public Token{
 			return str.str();
 		}
 		
-		static const char* parse(const char* pointer, list<Token*>& lst){
+		static const char* parse(const char* pointer, list_Token& lst){
 			if( ')' == *pointer ){
 				lst.push_back(new Brack_R());
 				pointer += 1;
@@ -154,24 +185,9 @@ class Brack_R: public Token{
 
 namespace token {
 	
-class list_Token: public list<Token*> {
-	public:
-		~list_Token() {
-			for(list_Token::iterator iter = this->begin();
-					iter != this->end();
-					iter++) {
-				delete *iter;
-			}
-		}
-};
-	
-} // namespace token
-////////////////////////////////////////////////////////////////////////
-
-namespace token {
-	
-list<Token*> parse_to_Token_list(string str);
+list_Token& parse_to_Token_list(string str);
 
 }// namespace token
+////////////////////////////////////////////////////////////////////////
 
 #endif // _TOKEN_HPP_

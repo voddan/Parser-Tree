@@ -50,15 +50,15 @@ int main(){
 	
 	std::cout << "'" << str1 << "'\n\n";
 	
-	list<Token*> list_of_Tokens = token::parse_to_Token_list(str1);
+	token::list_Token list_of_Tokens = token::parse_to_Token_list(str1);
 	cout << list_of_Tokens;
 	
-	/*
-	for(list<Token*>::iterator iter = list_of_Tokens.begin();
+	 /*
+	for(token::list_Token::iterator iter = list_of_Tokens.begin();
 			iter != list_of_Tokens.end();
 			iter++) {
 		delete *iter;
-	} */
+	} // */
 	
 	
 	return 0;

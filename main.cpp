@@ -1,4 +1,4 @@
-/** main.cpp
+/** main.cpp executable
  * 
  * This is the main file of a trainig project 'Parser-Tree'.
  * It's gonna be writen in the best C++.
@@ -21,16 +21,16 @@
  *         ()
  *     4) variables:
  *         x, y, z
- *     5) u-operaors:
+ *     5) u-operaors: 
  *         -(23), difx(x*x + y)
- *   *To calculate constant expressions
+ *   *To calculate constant expressions 
  *   *To print var-expressions
  * */
 
 #include <stdio.h>
 #include <iostream>
 #include <string>
-#include <list>
+#include <list> 
 
 #include "token.hpp"
 #include "expr_tree.hpp"
@@ -44,7 +44,6 @@ typedef expr_tree::Expression Expression;
 //----------------------------------------------------------------------
 
 char str1[] = "  123 +100 + (   400+)  ";
-list<Token> parse_to_Token_list(string str);
 
 ////////////////////////////////////////////////////////////////////////
 int main(){
@@ -54,43 +53,15 @@ int main(){
 	list<Token*> list_of_Tokens = token::parse_to_Token_list(str1);
 	cout << list_of_Tokens;
 	
+	/*
+	for(list<Token*>::iterator iter = list_of_Tokens.begin();
+			iter != list_of_Tokens.end();
+			iter++) {
+		delete *iter;
+	} */
+	
 	
 	return 0;
 }
 ////////////////////////////////////////////////////////////////////////
 
-/*
-
-const char* parse_space(const char* pointer, list<Token>& lst){  // const ???
-	while(' ' == *pointer)
-		pointer += 1;
-	return pointer;
-}
-
-list<Token> parse_to_Token_list(string str){
-	using namespace token;
-	typedef const char* (*Parse_function)(const char*, list<Token>&);
-	
-	list<Parse_function> parse_func_list;
-	parse_func_list << Num::parse 
-			<< Plus::parse
-			<< Brack_L::parse
-			<< Brack_R::parse;
-	parse_func_list.push_front(parse_space);
-	//--------------------------------------------------------------
-	list<Token> lst;
-	
-	const char* pointer  = &str[0];
-	
-	list<Parse_function>::const_iterator iter_func = parse_func_list.begin();
-	while('\0' != *pointer){
-		pointer = (*iter_func)(pointer, lst);
-		iter_func++;
-		if(parse_func_list.end() == iter_func)
-			iter_func = parse_func_list.begin();
-	}
-	
-	return lst;
-}
-
-*/

@@ -1,11 +1,11 @@
- /** test.cpp
+ /** test.cpp executable
  * 
  * This is the test file of 'Parser-Tree' project.
  * 
- * */
+ * */ 
 
 #include <stdio.h>
-#include <iostream>
+#include <iostream> 
 #include <string>
 #include <list>
 

@@ -37,13 +37,14 @@
 #include "utils.hpp"
 
 using namespace std;
-using namespace utils; // how do i call spaces?  1
+using namespace utils;
 
 typedef token::Token Token;
 typedef expr_tree::Expression Expression;
 //----------------------------------------------------------------------
 
 char str1[] = "  123 +100 + (   400+)  ";
+//char str1[] = "    ";
 
 ////////////////////////////////////////////////////////////////////////
 int main(){
@@ -52,14 +53,6 @@ int main(){
 	
 	token::list_Token list_of_Tokens = token::parse_to_Token_list(str1);
 	cout << list_of_Tokens;
-	
-	 /*
-	for(token::list_Token::iterator iter = list_of_Tokens.begin();
-			iter != list_of_Tokens.end();
-			iter++) {
-		delete *iter;
-	} // */
-	
 	
 	return 0;
 }

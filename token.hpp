@@ -22,18 +22,19 @@
 #include <cctype>
 #include <assert.h>
 
-using namespace std;
-
 inline int char_to_int(char ch) {
 	assert( isdigit(ch) );
 	return ch - '0';
 }
+
+using namespace std;
 
 namespace token {
 
 class Token{
 	public:
 		Token(const string name) : _name(name) {}
+		virtual ~Token() {}
 		const string name() const {return _name;}
 		//---------------------------------
 		

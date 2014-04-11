@@ -17,8 +17,6 @@
 
 using namespace std;
 
-typedef token::Token Token;
-typedef expr_tree::Expression Expression;
 //----------------------------------------------------------------------
 
 namespace utils{ // namespace utils
@@ -32,17 +30,17 @@ ostream& operator<<(ostream& str, const Token& token) {
 	str << token.to_string(); 
 	return str;
 }
-	
-ostream& operator<<(ostream& str, token::list_Token& lst) { // conflict with list - list
+
+ostream& operator<<(ostream& str, list<Token*>& lst) { // conflict with list - list
 	cout << "list<Token>[ \n";
-	for(token::list_Token::const_iterator iter = lst.begin();
+	for(list<Token*>::const_iterator iter = lst.begin();
 			iter != lst.end(); 
 			iter++){
-		cout << "             " << (**iter) << '\n';		// why does it work??
+		cout << "             " << (**iter) << '\n';
 	}
 	cout << "]\n";
 	return str;
-}
+} 
 
 template<typename T> 
 list<T>& operator<<(

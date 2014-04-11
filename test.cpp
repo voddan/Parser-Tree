@@ -16,8 +16,6 @@
 using namespace std;
 using namespace utils;
 
-typedef token::Token Token;
-typedef expr_tree::Expression Expression;
 //----------------------------------------------------------------------
 void print_test_name(string name){
 	cout << "#!---------------\n";
@@ -75,7 +73,7 @@ void test_Token_main(){
 void test_Token_parse(){
 	print_test_name("Token_parse");
 	
-	using namespace token;
+	//using namespace token;
 	
 	/////
 	char str1[] = "  123 +100 + (   400+)  ";

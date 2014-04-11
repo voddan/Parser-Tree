@@ -39,19 +39,21 @@
 using namespace std;
 using namespace utils;
 
-typedef token::Token Token;
-typedef expr_tree::Expression Expression;
+
 //----------------------------------------------------------------------
 
 char str1[] = "  123 +100 + (   400+)  ";
 //char str1[] = "    ";
 
+
+// TODO: hide type defines
+// extract Printrable
 ////////////////////////////////////////////////////////////////////////
 int main(){
 	
 	std::cout << "'" << str1 << "'\n\n";
 	
-	token::list_Token list_of_Tokens = token::parse_to_Token_list(str1);
+	list_Token list_of_Tokens = token::parse_to_Token_list(str1);
 	cout << list_of_Tokens;
 	
 	return 0;

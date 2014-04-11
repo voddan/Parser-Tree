@@ -16,9 +16,10 @@
 #include <sstream>
 
 using namespace std;
+//----------------------------------------------------------------------
+
 
 namespace expr_tree { // namespace expr_tree
-
 
 class Expression{
 	public:
@@ -75,5 +76,9 @@ class Plus : public B_Oper {
 };
 
 } // namespace expr_tree
+////////////////////////////////////////////////////////////////////////
+
+
+typedef expr_tree::Expression Expression;
 
 #endif // _EXPR_TREE_HPP_

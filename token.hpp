@@ -22,14 +22,17 @@
 #include <cctype>
 #include <assert.h>
 
+using namespace std;
+//----------------------------------------------------------------------
+
 inline int char_to_int(char ch) {
 	assert( isdigit(ch) );
 	return ch - '0';
 }
 
-using namespace std;
-
 namespace token {
+	
+class list_Token;
 
 class Token{
 	public:
@@ -38,18 +41,13 @@ class Token{
 		const string name() const {return _name;}
 		//---------------------------------
 		
-		virtual string to_string() const// = 0;
-		{
+		virtual string to_string() const {
 			ostringstream str;
 			str << "Token(" << _name << ")";
 			return str.str();
 		} //*/
 		
-		//~ static  void parse(const char* str, list<Token>& lst) {
-			//~ //return parse_(str, lst);
-			//~ //return 
-		//~ }
-		//char* parse(const char* str, list<Token>& lst); // how make me to override?
+		static const char* parse(const char* pointer, list_Token& lst); // how make me to override?
 	private:
 		const string _name;
 };
@@ -93,8 +91,8 @@ class Num: public Token{
 			str << "Num(" << _value << ")";
 			return str.str();
 		}
-		
-		static const char* parse(const char* pointer, list_Token& lst){ //////&
+
+		static const char* parse(const char* pointer, list_Token& lst){
 			char ch;
 			
 			if( !isdigit(ch = *pointer) ) return pointer;
@@ -111,7 +109,6 @@ class Num: public Token{
 			lst.push_back(new Num(num));
 			return pointer;
 		}
-		
 	private:
 		const int _value;
 };
@@ -125,9 +122,6 @@ class B_Oper: public Token{
 			str << "B-Oper("  << "__" << name() << "__" << ")";
 			return str.str();
 		}
-		
-		//virtual int apply(int left, int right)
-	private:
 };
 
 class Plus : public B_Oper {
@@ -190,5 +184,8 @@ list_Token& parse_to_Token_list(string str);
 
 }// namespace token
 ////////////////////////////////////////////////////////////////////////
+
+typedef token::Token Token;
+typedef token::list_Token list_Token;
 
 #endif // _TOKEN_HPP_

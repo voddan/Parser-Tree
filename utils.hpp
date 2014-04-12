@@ -22,7 +22,7 @@ using namespace std;
 namespace utils{ // namespace utils
 	
 ostream& operator<<(ostream& str, const Expression& expr) {
-	str << expr.to_string(); 
+	str << expr.to_string(0); 
 	return str;
 }
 
@@ -32,27 +32,27 @@ ostream& operator<<(ostream& str, const Token& token) {
 }
 
 ostream& operator<<(ostream& str, list<Token*>& lst) { // conflict with list - list
-	cout << "list<Token>[ \n";
+	str << "list<Token>[ \n";
 	for(list<Token*>::const_iterator iter = lst.begin();
 			iter != lst.end(); 
 			iter++){
-		cout << "             " << (**iter) << '\n';
+		str << "             " << (**iter) << '\n';
 	}
-	cout << "]\n";
+	str << "]\n";
 	return str;
 } 
 
 /*
 template<typename T> 
 ostream& operator<<(ostream& str, list<T>& lst) {
-	cout << "list<T>[ \n";
+	str << "list<T>[ \n";
 	for(list<T>::const_iterator iter = lst.begin();
 			iter != lst.end(); 
 			iter++){
-		//cout << "             " << (**iter) << '\n';
-		cout << (**iter) << " ";
+		//str << "             " << (**iter) << '\n';
+		str << (**iter) << " ";
 	}
-	cout << "]\n";
+	str << "]\n";
 	return str;
 } */
 

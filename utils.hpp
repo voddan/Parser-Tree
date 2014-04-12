@@ -22,7 +22,7 @@ using namespace std;
 namespace utils{ // namespace utils
 	
 ostream& operator<<(ostream& str, const Expression& expr) {
-	str << expr.to_string(0); 
+	str << expr.to_string(); 
 	return str;
 }
 

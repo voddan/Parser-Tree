@@ -22,7 +22,7 @@ using namespace std;
 //----------------------------------------------------------------------
 
 // where should I place private helper classes like this?
-//*
+/*
 class Tab {
 	public:
 		Tab(int tab): _tab(tab) {}
@@ -47,9 +47,9 @@ class Expression{
 		const string name() const {return _name;}
 		
 		//---------------------------------
-		virtual string to_string(int tab) const{
+		virtual string to_string() const{
 			ostringstream str;
-			str << Tab(tab) << "Expression(" << _name << ")\n";
+			str << "Expression(" << _name << ")\n";
 			return str.str();
 		}
 		
@@ -73,7 +73,7 @@ class Expr_tree  { // not an Expression
 		string to_string() const{
 			ostringstream str;
 			str << "Expr_tree((" << '\n'
-			    << ((_expr)? _expr->to_string(1) : "\tnull\n") 
+			    << ((_expr)? _expr->to_string() : "null\n") 
 			    << "))\n";
 			return str.str();
 		}
@@ -93,15 +93,15 @@ class Node: public Expression {
 		Node(Expression* link = 0) : Expression("Node"), _link(link) {}
 		virtual ~Node() { delete _link; }
 		
-		virtual string to_string(int tab) const{
+		virtual string to_string() const{
 			ostringstream str;
 			
-			str << Tab(tab) << "Node(\n";
+			str << "Node(\n";
 			
-			if (_link) { str << _link->to_string(tab + 1);}
-			else 	   { str << Tab(tab + 1) << "null\n"; }
+			if (_link) { str << _link->to_string();}
+			else 	   { str << "null\n"; }
 			
-			str << Tab(tab) << ")\n";
+			str << ")\n";
 			return str.str();
 		}
 		
@@ -117,9 +117,9 @@ class Num: public Expression {
 	public:
 		Num(int value) : Expression("Num"), _value(value) {}
 		
-		string to_string(int tab) const{
+		string to_string() const{
 			ostringstream str;
-			str << Tab(tab) << "Num(" << _value << ")\n";
+			str << "Num(" << _value << ")\n";
 			return str.str();
 		}
 		
@@ -141,20 +141,20 @@ class B_Oper: public Expression{
 			Expression(name), _left(left), _right(right) {} // & vs *
 		virtual ~B_Oper() {delete _left; delete _right;}
 		
-		string to_string(int tab) const{
+		string to_string() const{
 			ostringstream str;
 			
-			str << Tab(tab) << "B-Oper{" << '\n';
+			str << "B-Oper{" << '\n';
 			
-			if (_left) { str << _left->to_string(tab + 1);}
-			else 	   { str << Tab(tab + 1) << "null\n"; }
+			if (_left) { str << _left->to_string();}
+			else 	   { str << "null\n"; }
 			
-			str << Tab(tab + 1) << "__" << name() << "__" << "\n";
+			str << "__" << name() << "__" << "\n";
 			
-			if (_right) { str << _right->to_string(tab + 1);}
-			else 	    { str << Tab(tab + 1) << "null\n"; }
+			if (_right) { str << _right->to_string();}
+			else 	    { str << "null\n"; }
 			
-			str << Tab(tab) << "}\n";
+			str << "}\n";
 			
 			return str.str();
 		}

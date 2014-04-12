@@ -54,26 +54,16 @@ class Token{
 
 class list_Token: public list<Token*> {
 	public:
-		//*
 		~list_Token() {
-			std::cout << "list_Token is out\n";
+			#ifdef DEBUG 
+				std::cout << "list_Token is out\n"; 
+			#endif
 			for(list_Token::iterator iter = this->begin();
 					iter != this->end();
 					iter++) {
 				delete *iter;
 			}
-		} // */
-		
-		/*
-		list_Token() {
-			std::cout << "list_Token is in\n";
-		} 
-		
-		~list_Token() {
-			std::cout << "list_Token is out\n";
-		} // */
-		
-		
+		}
 };
 
 } // namespace token

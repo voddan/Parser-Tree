@@ -42,6 +42,20 @@ ostream& operator<<(ostream& str, list<Token*>& lst) { // conflict with list - l
 	return str;
 } 
 
+/*
+template<typename T> 
+ostream& operator<<(ostream& str, list<T>& lst) {
+	cout << "list<T>[ \n";
+	for(list<T>::const_iterator iter = lst.begin();
+			iter != lst.end(); 
+			iter++){
+		//cout << "             " << (**iter) << '\n';
+		cout << (**iter) << " ";
+	}
+	cout << "]\n";
+	return str;
+} */
+
 template<typename T> 
 list<T>& operator<<(
 		list<T>& lst, 

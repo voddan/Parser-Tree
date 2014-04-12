@@ -22,6 +22,7 @@ using namespace std;
 //----------------------------------------------------------------------
 
 // where should I place private helper classes like this?
+void test() {}
 /*
 class Tab {
 	public:

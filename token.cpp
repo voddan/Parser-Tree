@@ -1,8 +1,8 @@
 /** token.cpp
  * 
- * Implementation of tokens
+ * Implementation of Tokens
  * 
- * list_Token parse_to_Token_list(string str);
+ * list_Token& parse_to_Token_list(string str);
  * */ 
  
 #include <string>

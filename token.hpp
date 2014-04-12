@@ -56,7 +56,7 @@ class list_Token: public list<Token*> {
 	public:
 		~list_Token() {
 			#ifdef DEBUG 
-				std::cout << "list_Token is out\n"; 
+				std::cerr << "list_Token is out\n"; 
 			#endif
 			for(list_Token::iterator iter = this->begin();
 					iter != this->end();
@@ -75,6 +75,8 @@ namespace token {
 class Num: public Token{
 	public:
 		Num(int value) : Token("Num"), _value(value) {}
+		
+		int value() const {return _value;}
 		
 		virtual string to_string() const{
 			ostringstream str;

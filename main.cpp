@@ -47,7 +47,7 @@ using namespace utils;
 //char str1[] = "  123 +100 + (   400+)  ";
 char str1[] = "    ";
 
-
+ 
 Expr_tree& parse_to_Expr_tree(list_Token& lst);
 // TODO: extract Printrable
 // TODO: mem leak: list_Token, Expr_tree

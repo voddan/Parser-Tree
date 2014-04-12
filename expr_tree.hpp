@@ -22,7 +22,7 @@ using namespace std;
 //----------------------------------------------------------------------
 
 // where should I place private helper classes like this?
-/*
+//*
 class Tab {
 	public:
 		Tab(int tab): _tab(tab) {}
@@ -38,13 +38,6 @@ ostream& operator<< (ostream& stream, const Tab& tab) {
 	return stream;
 } // */
 
-ostream& print_tab(ostream& stream, int tab){
-	for (int i = tab; i > 0; i--) {
-		stream << '\t';
-	}
-	return stream;
-}
-
 namespace expr_tree { // namespace expr_tree
 
 class Expression{
@@ -56,8 +49,7 @@ class Expression{
 		//---------------------------------
 		virtual string to_string(int tab) const{
 			ostringstream str;
-			//str << Tab(tab) << "Expression(" << _name << ")\n";
-			print_tab(str, tab) << "Expression(" << _name << ")\n";
+			str << Tab(tab) << "Expression(" << _name << ")\n";
 			return str.str();
 		}
 		
@@ -104,15 +96,12 @@ class Node: public Expression {
 		virtual string to_string(int tab) const{
 			ostringstream str;
 			
-			//str << Tab(tab) << "Node(\n";
-			print_tab(str, tab) << "Node(\n";
+			str << Tab(tab) << "Node(\n";
 			
 			if (_link) { str << _link->to_string(tab + 1);}
-			else 	   { print_tab(str, tab + 1) << "null\n"; }
-			//else 	   { str << Tab(tab + 1) << "null\n"; }
+			else 	   { str << Tab(tab + 1) << "null\n"; }
 			
-			//str << Tab(tab) << ")\n";
-			print_tab(str, tab) << ")\n";
+			str << Tab(tab) << ")\n";
 			return str.str();
 		}
 		
@@ -130,8 +119,7 @@ class Num: public Expression {
 		
 		string to_string(int tab) const{
 			ostringstream str;
-			//str << Tab(tab) << "Num(" << _value << ")\n";
-			print_tab(str, tab) << "Num(" << _value << ")\n";
+			str << Tab(tab) << "Num(" << _value << ")\n";
 			return str.str();
 		}
 		
@@ -156,18 +144,17 @@ class B_Oper: public Expression{
 		string to_string(int tab) const{
 			ostringstream str;
 			
-			print_tab(str, tab) << "B-Oper{" << '\n';
+			str << Tab(tab) << "B-Oper{" << '\n';
 			
 			if (_left) { str << _left->to_string(tab + 1);}
-			else 	   { print_tab(str, tab + 1) << "null\n"; }
-			//else 	   { str << Tab(tab + 1) << "null\n"; }
+			else 	   { str << Tab(tab + 1) << "null\n"; }
 			
-			print_tab(str, tab + 1) << "__" << name() << "__" << "\n";
+			str << Tab(tab + 1) << "__" << name() << "__" << "\n";
 			
 			if (_right) { str << _right->to_string(tab + 1);}
-			else 	    { print_tab(str, tab + 1) << "null\n"; }
+			else 	    { str << Tab(tab + 1) << "null\n"; }
 			
-			print_tab(str, tab) << "}\n";
+			str << Tab(tab) << "}\n";
 			
 			return str.str();
 		}

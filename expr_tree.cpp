@@ -17,15 +17,13 @@
 #include "token.hpp"
 
 using namespace std;
-//using namespace expr_tree; //?
 
-//*
 ostream& operator<< (ostream& stream, const Tab& tab) {
 	for (int i = tab._tab; i > 0; i--) {
 		stream << '\t';
 	}
 	return stream;
-} // */
+}
 
 namespace expr_tree {
 	

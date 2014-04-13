@@ -31,9 +31,8 @@
 #include <iostream>
 #include <string>
 #include <list>
-//#include <typeinfo>
 
-//#define DEBUG
+//#define DEBUG // debug
 
 #include "token.hpp"
 #include "expr_tree.hpp"

@@ -41,7 +41,7 @@ class Expression{
 		const string name() const {return _name;}
 		
 		//---------------------------------
-		virtual string to_string(int tab) const{
+		virtual string to_string(int tab = 0) const{
 			ostringstream str;
 			str << Tab(tab) << "Expression(" << _name << ")\n";
 			return str.str();

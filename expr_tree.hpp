@@ -20,9 +20,7 @@
 
 using namespace std;
 //----------------------------------------------------------------------
-
 // where should I place private helper classes like this?
-//*
 class Tab {
 	public:
 		Tab(int tab): _tab(tab) {}
@@ -31,15 +29,11 @@ class Tab {
 		const int _tab;
 };
 
-ostream& operator<< (ostream& stream, const Tab& tab) {
-	for (int i = tab._tab; i > 0; i--) {
-		stream << '\t';
-	}
-	return stream;
-} // */
+ostream& operator<< (ostream& stream, const Tab& tab);
 
+//----------------------------------------------------------------------
 namespace expr_tree { // namespace expr_tree
-
+	
 class Expression{
 	public:
 		Expression(const string name) : _name(name) {}

@@ -30,7 +30,6 @@ namespace expr_tree { // Expr_tree& parse_to_Expr_tree(list_Token&)
 Expr_tree& parse_to_Expr_tree(list_Token& lst) {
 	using namespace expr_tree;
 	
-	//Expr_tree* tree = new Expr_tree( new Node() );
 	Expr_tree* tree = new Expr_tree( new Node(0) );
 	
 	//Expression* current = tree->expr(); // a strange trouble with 'const'
@@ -48,12 +47,23 @@ Expr_tree& parse_to_Expr_tree(list_Token& lst) {
 			current->set_link( new Num( item->value() ));
 			
 		} else if ( name == "+"){
-			//const token::Plus* item = (token::Plus*) tok; // unnecessary
 			Plus* plus = new Plus( current->get_link(), 0 );
 			current->set_link( plus );
 			current = plus;
 			
-		} else {
+		} /* else if ( name == "Brack_L"){
+			Node* node = new Node( 0 );
+			current->set_link( node );
+			current = node;
+			
+		} else if ( name == "Brack_R"){
+			//const token::Brack_L* item = (token::Brack_L*) tok; // unnecessary
+			//Node* node = new Node( 0 );
+			// go up
+			current->set_link( node );
+			current = node;
+			
+		} */ else {
 			// may be an exeption
 			cerr << "Unknow token '" << name << "'\n";
 		}

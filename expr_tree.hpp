@@ -18,7 +18,7 @@
 
 #include "token.hpp"
 
-using namespace std;
+//using namespace std;
 //----------------------------------------------------------------------
 // where should I place private helper classes like this?
 class Tab {
@@ -85,10 +85,10 @@ class Node: public Expression {
 			// should I do like this?
 			
 			return this;  // debug
-			
+			/*
 			Expression* t = _link;
 			delete this;
-			return t;
+			return t; // */
 		}
 		
 		virtual void set_link(Expression* link) { _link = link; }
@@ -105,9 +105,7 @@ class Num: public Expression {
 		string to_string(int tab) const;
 		//---------------------------------
 		
-		virtual Expression* optimize() { 
-			return this;
-		}
+		const int value() { return _value; }
 		
 		virtual void set_link(Expression* link) {
 			std::cerr << "#! Unsupported operation expr_tree::Num.set_link()\n";
@@ -134,6 +132,21 @@ class B_Oper: public Expression{
 			if(_right) _right = _right->optimize();
 			
 			// pay attention
+			if(_left && _right &&
+			   _left ->name() == "Num" &&
+			   _right->name() == "Num") {
+				// strange bug
+				#ifdef DEBUG 
+					std::cerr << "optimize B_Oper(left is Num, right is Num)\n";
+				#endif
+				Num* t = new Num( calculate(
+							((Num*) _left )->value(),
+							((Num*) _right)->value() ) 
+						); 
+				delete this; 
+				return t; 
+			}
+			
 			return this;
 		}
 		
@@ -141,12 +154,13 @@ class B_Oper: public Expression{
 		Expression* get_left() const 	{ return _left; }
 		
 		void set_right(Expression* right) { _right = right; }
-		Expression* get_rightt() const 	  {  return _right; }
+		Expression* get_right() const 	  {  return _right; }
 		
 		virtual void set_link(Expression* link) { _right = link; }
 		virtual Expression* get_link() const 	{ return _right; }
 		
-		//virtual int apply(int left, int right)
+		//---------------------------------
+		virtual int calculate(int left_value, int right_value) = 0;
 	private:
 		Expression* _left;
 		Expression* _right;
@@ -155,10 +169,42 @@ class B_Oper: public Expression{
 class Plus : public B_Oper {
 	public: 
 		Plus(Expression* left = 0, Expression* right = 0) : B_Oper("+", left,  right) {}
-		//*
+		
 		virtual Expression* optimize() { 
-			return B_Oper::optimize();
-		} // */
+			Expression* t = B_Oper::optimize(); // important !!
+			if(this != t) return t;
+			
+			if(get_left() &&
+			   get_left()->name() == "Num" &&
+			   ((Num*) get_left())->value() == 0) {
+				// strange bug
+				#ifdef DEBUG
+					std::cerr << "optimize B_Oper[+](left is Num, left == 0)\n";
+				#endif
+				Expression* t = get_right();
+				//delete this; 
+				return t; 
+			}
+			
+			if(get_right() &&
+			   get_right()->name() == "Num" &&
+			   ((Num*) get_right())->value() == 0) {
+				// strange bug
+				#ifdef DEBUG   
+					std::cerr << "optimize B_Oper[+](right is Num, right == 0)\n";
+				#endif
+				Expression* t = get_left();
+				//delete this; 
+				return t; 
+			}
+			
+			return this;
+		}
+		
+		//---------------------------------
+		virtual int calculate(int left_value, int right_value) {
+			return left_value + right_value;
+		}
 };
 
 } // namespace expr_tree

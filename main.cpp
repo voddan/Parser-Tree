@@ -32,7 +32,7 @@
 #include <string>
 #include <list>
 
-//#define DEBUG // debug
+//#define DEBUG
 
 #include "token.hpp"
 #include "expr_tree.hpp"
@@ -44,8 +44,11 @@ using namespace utils;
 
 //----------------------------------------------------------------------
 
-char str1[] = "  123 +100 + (   400+)  ";
+//char str1[] = "  123 +100 + (   400+)  ";
 //char str1[] = "  123 +100 +  400  ";
+//char str1[] = "  123 +100 + 0 + 400 + 0 ";
+char str1[] = "  123 +100 + 0 + 400 + 0 + 0 + 0 + ";
+//char str1[] = "  123 +100 +  0 +  ";
 //char str1[] = "  123 +100 +  400 + ";
 //char str1[] = "    ";
 

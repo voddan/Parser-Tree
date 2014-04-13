@@ -41,11 +41,8 @@ class Expression{
 		const string name() const {return _name;}
 		
 		//---------------------------------
-		virtual string to_string(int tab = 0) const{
-			ostringstream str;
-			str << Tab(tab) << "Expression(" << _name << ")\n";
-			return str.str();
-		}
+		virtual string to_string(int tab = 0) const; // see expr-tree.cpp 
+		
 		
 		virtual void set_link(Expression* link) = 0;
 		virtual Expression* get_link() const 	= 0;
@@ -64,13 +61,7 @@ class Expr_tree  { // not an Expression
 			delete _expr; 
 		}
 		
-		string to_string() const{
-			ostringstream str;
-			str << "Expr_tree((" << '\n'
-			    << ((_expr)? _expr->to_string(1) : "\tnull\n") 
-			    << "))\n";
-			return str.str();
-		}
+		string to_string() const;
 		
 		//const string name() const {return "Expr_tree";}
 		
@@ -87,17 +78,7 @@ class Node: public Expression {
 		Node(Expression* link = 0) : Expression("Node"), _link(link) {}
 		virtual ~Node() { delete _link; }
 		
-		virtual string to_string(int tab) const{
-			ostringstream str;
-			
-			str << Tab(tab) << "Node(\n";
-			
-			if (_link) { str << _link->to_string(tab + 1);}
-			else 	   { str << Tab(tab + 1) << "null\n"; }
-			
-			str << Tab(tab) << ")\n";
-			return str.str();
-		}
+		virtual string to_string(int tab) const;
 		
 		virtual void set_link(Expression* link) { _link = link; }
 		virtual Expression* get_link() const 	{ return _link; }
@@ -111,11 +92,7 @@ class Num: public Expression {
 	public:
 		Num(int value) : Expression("Num"), _value(value) {}
 		
-		string to_string(int tab) const{
-			ostringstream str;
-			str << Tab(tab) << "Num(" << _value << ")\n";
-			return str.str();
-		}
+		string to_string(int tab) const;
 		
 		virtual void set_link(Expression* link) {
 			std::cerr << "Unsupported operation expr_tree::Num.set_link()\n";
@@ -135,23 +112,7 @@ class B_Oper: public Expression{
 			Expression(name), _left(left), _right(right) {} // & vs *
 		virtual ~B_Oper() {delete _left; delete _right;}
 		
-		string to_string(int tab) const{
-			ostringstream str;
-			
-			str << Tab(tab) << "B-Oper{" << '\n';
-			
-			if (_left) { str << _left->to_string(tab + 1);}
-			else 	   { str << Tab(tab + 1) << "null\n"; }
-			
-			str << Tab(tab + 1) << "__" << name() << "__" << "\n";
-			
-			if (_right) { str << _right->to_string(tab + 1);}
-			else 	    { str << Tab(tab + 1) << "null\n"; }
-			
-			str << Tab(tab) << "}\n";
-			
-			return str.str();
-		}
+		string to_string(int tab) const;
 		
 		void set_left(Expression* left) { _left = left; }
 		Expression* get_left() const 	{ return _left; }

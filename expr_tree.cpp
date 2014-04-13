@@ -25,7 +25,7 @@ ostream& operator<< (ostream& stream, const Tab& tab) {
 	return stream;
 }
 
-namespace expr_tree {
+namespace expr_tree { // Expr_tree& parse_to_Expr_tree(list_Token&)
 	
 Expr_tree& parse_to_Expr_tree(list_Token& lst) {
 	using namespace expr_tree;
@@ -60,6 +60,60 @@ Expr_tree& parse_to_Expr_tree(list_Token& lst) {
 	}
 	
 	return *tree;
+}
+
+}// namespace expt_tree
+
+namespace expr_tree { // string to_string(int)
+	
+string Expression::to_string(int tab) const {
+	ostringstream str;
+	str << Tab(tab) << "Expression(" << _name << ")\n";
+	return str.str();
+}
+
+string Expr_tree::to_string() const {
+	ostringstream str;
+	str << "Expr_tree((" << '\n'
+	    << ((_expr)? _expr->to_string(1) : "\tnull\n") 
+	    << "))\n";
+	return str.str();
+}
+
+string Node::to_string(int tab) const {
+	ostringstream str;
+	
+	str << Tab(tab) << "Node(\n";
+	
+	if (_link) { str << _link->to_string(tab + 1);}
+	else 	   { str << Tab(tab + 1) << "null\n"; }
+	
+	str << Tab(tab) << ")\n";
+	return str.str();
+}
+		
+string Num::to_string(int tab) const {
+	ostringstream str;
+	str << Tab(tab) << "Num(" << _value << ")\n";
+	return str.str();
+}
+
+string B_Oper::to_string(int tab) const {
+	ostringstream str;
+	
+	str << Tab(tab) << "B-Oper{" << '\n';
+	
+	if (_left) { str << _left->to_string(tab + 1);}
+	else 	   { str << Tab(tab + 1) << "null\n"; }
+	
+	str << Tab(tab + 1) << "__" << name() << "__" << "\n";
+	
+	if (_right) { str << _right->to_string(tab + 1);}
+	else 	    { str << Tab(tab + 1) << "null\n"; }
+	
+	str << Tab(tab) << "}\n";
+	
+	return str.str();
 }
 
 }// namespace expt_tree

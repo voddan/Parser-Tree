@@ -39,10 +39,9 @@ class Expression{
 		Expression(const string name) : _name(name) {}
 		virtual ~Expression() {}
 		const string name() const {return _name;}
-		
-		//---------------------------------
 		virtual string to_string(int tab = 0) const; // see expr-tree.cpp 
-		
+		//---------------------------------
+		virtual Expression* optimize() { return this; }
 		
 		virtual void set_link(Expression* link) = 0;
 		virtual Expression* get_link() const 	= 0;
@@ -62,14 +61,15 @@ class Expr_tree  { // not an Expression
 		}
 		
 		string to_string() const;
+		//---------------------------------
 		
-		//const string name() const {return "Expr_tree";}
+		void optimize() { _expr = _expr->optimize(); }
 		
+		//Expression* expr() const { return _expr; };
 		const Expression* expr() const { return _expr; };
-	
 	private:
-		const Expression* _expr;
-		// Expression* _expr;
+		// const Expression* _expr;
+		Expression* _expr;
 };
 		
 		
@@ -77,8 +77,19 @@ class Node: public Expression {
 	public:
 		Node(Expression* link = 0) : Expression("Node"), _link(link) {}
 		virtual ~Node() { delete _link; }
-		
 		virtual string to_string(int tab) const;
+		//---------------------------------
+		
+		virtual Expression* optimize() { 
+			if(_link) _link = _link->optimize();
+			// should I do like this?
+			
+			return this;  // debug
+			
+			Expression* t = _link;
+			delete this;
+			return t;
+		}
 		
 		virtual void set_link(Expression* link) { _link = link; }
 		virtual Expression* get_link() const 	{ return _link; }
@@ -91,14 +102,18 @@ class Node: public Expression {
 class Num: public Expression {
 	public:
 		Num(int value) : Expression("Num"), _value(value) {}
-		
 		string to_string(int tab) const;
+		//---------------------------------
+		
+		virtual Expression* optimize() { 
+			return this;
+		}
 		
 		virtual void set_link(Expression* link) {
-			std::cerr << "Unsupported operation expr_tree::Num.set_link()\n";
+			std::cerr << "#! Unsupported operation expr_tree::Num.set_link()\n";
 		}
 		virtual Expression* get_link() const {
-			std::cerr << "Unsupported operation expr_tree::Num.get_link()\n";
+			std::cerr << "#! Unsupported operation expr_tree::Num.get_link()\n";
 			return 0;
 		}
 	private:
@@ -111,8 +126,16 @@ class B_Oper: public Expression{
 		B_Oper(string name, Expression* left = 0, Expression* right = 0) : 
 			Expression(name), _left(left), _right(right) {} // & vs *
 		virtual ~B_Oper() {delete _left; delete _right;}
-		
 		string to_string(int tab) const;
+		//---------------------------------
+		
+		virtual Expression* optimize() { 
+			if(_left)  _left  = _left->optimize();
+			if(_right) _right = _right->optimize();
+			
+			// pay attention
+			return this;
+		}
 		
 		void set_left(Expression* left) { _left = left; }
 		Expression* get_left() const 	{ return _left; }
@@ -132,6 +155,10 @@ class B_Oper: public Expression{
 class Plus : public B_Oper {
 	public: 
 		Plus(Expression* left = 0, Expression* right = 0) : B_Oper("+", left,  right) {}
+		//*
+		virtual Expression* optimize() { 
+			return B_Oper::optimize();
+		} // */
 };
 
 } // namespace expr_tree

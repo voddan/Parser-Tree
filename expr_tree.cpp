@@ -5,7 +5,7 @@
  * Expr_tree& parse_to_Expr_tree(list_Token& lst);
  * */ 
  
-#include <string>
+#include <string> 
 #include <algorithm>
 #include <sstream>
 #include <list>
@@ -26,9 +26,11 @@ ostream& operator<< (ostream& stream, const Tab& tab) {
 	return stream;
 }
 
-Expr_tree& parse_to_Expr_tree_recusive(list_Token::const_iterator* iter_pointer, list_Token::const_iterator end) {
+Expr_tree& parse_to_Expr_tree_recursive(list_Token::const_iterator* iter_pointer, const list_Token::const_iterator end) {
+	debug_detail("parse_to_Expr_tree_recursive( " << (***iter_pointer).to_string() << " )\n");
+	
 	using namespace expr_tree;
-	list_Token::const_iterator iter = *iter_pointer;
+	list_Token::const_iterator& iter = *iter_pointer;
 	
 	Expr_tree* tree = new Expr_tree( new Node(0) );
 	
@@ -45,25 +47,33 @@ Expr_tree& parse_to_Expr_tree_recusive(list_Token::const_iterator* iter_pointer,
 			current->set_link( new Num( item->value() ));
 			
 		} else if ( name == "+"){
+			debug_detail("parsing Pluss[+] \n");
+			
 			Plus* plus = new Plus( current->get_link(), 0 );
 			current->set_link( plus );
+			
+			debug_heavy(tree->to_string()); 
+			
 			current = plus;
 			
 		} // use recursion !!!
 		else if ( name == "Brack_L"){
-			debug(cerr << "parsing Brack_L \n");
+			debug_detail("parsing Brack_L \n");
+			iter++;
+			
 			Node* node = new Node( 0 );
 			current->set_link( node );
-			iter++;
+			
+			debug_heavy(tree->to_string());
+			
 			node -> set_link( (expr_tree::Expression*)
-					  parse_to_Expr_tree_recusive( &iter, end ).expr() 
+					  parse_to_Expr_tree_recursive( &iter, end ).expr() 
 					);
+			if(end == iter) break;
 			
 		} else if ( name == "Brack_R"){
-			debug("parsing Brack_R \n");
-			iter++;
+			debug_detail("parsing Brack_R \n");
 			return *tree;
-			
 		} else {
 			// may be an exeption
 			cerr << "Unknow token '" << name << "'\n";
@@ -77,7 +87,7 @@ namespace expr_tree { // Expr_tree& parse_to_Expr_tree(list_Token&)
 	
 Expr_tree& parse_to_Expr_tree(list_Token& lst) {
 	list_Token::const_iterator iter = lst.begin();
-	return parse_to_Expr_tree_recusive(&iter, lst.end());
+	return parse_to_Expr_tree_recursive(&iter, lst.end());
 }
 
 }// namespace expt_tree

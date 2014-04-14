@@ -6,10 +6,10 @@ libs_list = token.o expr_tree.o
 
 
 ## main ##
-main: main.o $(libs_list)
+main: BUILD.H main.o $(libs_list)
 	g++ -Wall -o "main" "main.o" $(libs_list)
 	
-main.o: main.cpp
+main.o: BUILD.H main.cpp
 	g++ -Wall -c "main.cpp"
 	
 	
@@ -17,18 +17,18 @@ main.o: main.cpp
 testing: test
 	./test
 
-test: test.o $(libs_list)
+test: BUILD.H test.o $(libs_list)
 	g++ -Wall -o "test" "test.o" $(libs_list)
 	
-test.o: test.cpp
+test.o: BUILD.H test.cpp
 	g++ -Wall -c "test.cpp"
 	
 	
 ## token lib ##
-token.o: token.cpp token.hpp
+token.o: BUILD.H token.cpp token.hpp
 	g++ -Wall -c "token.cpp"
 	
 ## expr_tree lib ##
-expr_tree.o: expr_tree.cpp expr_tree.hpp
+expr_tree.o: BUILD.H expr_tree.cpp expr_tree.hpp
 	g++ -Wall -c "expr_tree.cpp"
 

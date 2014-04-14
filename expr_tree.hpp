@@ -34,7 +34,7 @@ ostream& operator<< (ostream& stream, const Tab& tab);
 //----------------------------------------------------------------------
 namespace expr_tree { // namespace expr_tree
 	
-class Expression{
+class Expression{ 
 	public:
 		Expression(const string name) : _name(name) {}
 		virtual ~Expression() {}

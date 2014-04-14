@@ -16,11 +16,12 @@
 #include <string>
 #include <algorithm>
 #include <sstream>
-#include <iostream>
 #include <list>
 
 #include <cctype>
 #include <assert.h>
+
+#include "BUILD.H"
 
 using namespace std;
 //----------------------------------------------------------------------
@@ -55,9 +56,7 @@ class Token{
 class list_Token: public list<Token*> {
 	public:
 		~list_Token() {
-			#ifdef DEBUG 
-				std::cerr << "list_Token is out\n"; 
-			#endif
+			debug("list_Token is out\n"); 
 			for(list_Token::iterator iter = this->begin();
 					iter != this->end();
 					iter++) {

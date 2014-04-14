@@ -32,11 +32,11 @@
 #include <string>
 #include <list>
 
-//#define DEBUG
-
 #include "token.hpp"
 #include "expr_tree.hpp"
 #include "utils.hpp"
+
+#include "BUILD.H"
 
 using namespace std;
 using namespace utils;
@@ -45,9 +45,9 @@ using namespace utils;
 //----------------------------------------------------------------------
 
 //char str1[] = "  123 +100 + (   400+)  ";
-//char str1[] = "  123 +100 +  400  ";
+char str1[] = "  123 +100 +  (400 ) ";
 //char str1[] = "  123 +100 + 0 + 400 + 0 ";
-char str1[] = "  123 +100 + 0 + 400 + 0 + 0 + 0 + ";
+//char str1[] = "  123 +100 + 0 + 400 + 0 + 0 + 0 + ";
 //char str1[] = "  123 +100 +  0 +  ";
 //char str1[] = "  123 +100 +  400 + ";
 //char str1[] = "    ";
@@ -57,6 +57,7 @@ char str1[] = "  123 +100 + 0 + 400 + 0 + 0 + 0 + ";
 // TODO: mem leak: list_Token, Expr_tree
 ////////////////////////////////////////////////////////////////////////
 int main(){
+	debug("DEBUG is on\n");
 	
 	std::cout << "'" << str1 << "'\n\n";
 	
@@ -66,8 +67,9 @@ int main(){
 	Expr_tree tree_of_Expr = expr_tree::parse_to_Expr_tree(list_of_Tokens);
 	cout << tree_of_Expr.to_string() << '\n';
 	
-	tree_of_Expr.optimize();
-	cout << tree_of_Expr.to_string() << '\n';
+	//tree_of_Expr.optimize();
+	//
+	//cout << tree_of_Expr.to_string() << '\n';
 	
 	return 0;
 }

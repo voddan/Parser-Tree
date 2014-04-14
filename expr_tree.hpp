@@ -14,9 +14,9 @@
 #include <string>
 #include <algorithm>
 #include <sstream>
-#include <iostream>
 
 #include "token.hpp"
+#include "BUILD.H"
 
 //using namespace std;
 //----------------------------------------------------------------------
@@ -54,9 +54,7 @@ class Expr_tree  { // not an Expression
 	public:
 		Expr_tree(Expression* expr) : _expr(expr) {}
 		~Expr_tree() { 
-			#ifdef DEBUG 
-				std::cerr << "Expr_tree is out\n"; 
-			#endif
+			debug("Expr_tree is out\n"); 
 			delete _expr; 
 		}
 		
@@ -136,9 +134,7 @@ class B_Oper: public Expression{
 			   _left ->name() == "Num" &&
 			   _right->name() == "Num") {
 				// strange bug
-				#ifdef DEBUG 
-					std::cerr << "optimize B_Oper(left is Num, right is Num)\n";
-				#endif
+				debug("optimize B_Oper(left is Num, right is Num)\n");
 				Num* t = new Num( calculate(
 							((Num*) _left )->value(),
 							((Num*) _right)->value() ) 
@@ -178,9 +174,7 @@ class Plus : public B_Oper {
 			   get_left()->name() == "Num" &&
 			   ((Num*) get_left())->value() == 0) {
 				// strange bug
-				#ifdef DEBUG
-					std::cerr << "optimize B_Oper[+](left is Num, left == 0)\n";
-				#endif
+				debug("optimize B_Oper[+](left is Num, left == 0)\n");
 				Expression* t = get_right();
 				//delete this; 
 				return t; 
@@ -190,9 +184,7 @@ class Plus : public B_Oper {
 			   get_right()->name() == "Num" &&
 			   ((Num*) get_right())->value() == 0) {
 				// strange bug
-				#ifdef DEBUG   
-					std::cerr << "optimize B_Oper[+](right is Num, right == 0)\n";
-				#endif
+				debug("optimize B_Oper[+](right is Num, right == 0)\n");
 				Expression* t = get_left();
 				//delete this; 
 				return t; 

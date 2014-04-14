@@ -15,6 +15,7 @@
 
 #include "expr_tree.hpp"
 #include "token.hpp"
+#include "BUILD.H"
 
 using namespace std;
 
@@ -25,19 +26,16 @@ ostream& operator<< (ostream& stream, const Tab& tab) {
 	return stream;
 }
 
-namespace expr_tree { // Expr_tree& parse_to_Expr_tree(list_Token&)
-	
-Expr_tree& parse_to_Expr_tree(list_Token& lst) {
+Expr_tree& parse_to_Expr_tree_recusive(list_Token::const_iterator* iter_pointer, list_Token::const_iterator end) {
 	using namespace expr_tree;
+	list_Token::const_iterator iter = *iter_pointer;
 	
 	Expr_tree* tree = new Expr_tree( new Node(0) );
 	
 	//Expression* current = tree->expr(); // a strange trouble with 'const'
 	Expression* current = (Expression*) tree->expr();
 	
-	for(list_Token::const_iterator iter = lst.begin();
-			iter != lst.end();
-			iter++){
+	for(; iter != end; iter++){
 		// want a switch here; problem with ' tipeid'
 		const Token* tok = *iter;
 		const string name = tok->name();
@@ -52,25 +50,34 @@ Expr_tree& parse_to_Expr_tree(list_Token& lst) {
 			current = plus;
 			
 		} // use recursion !!!
-		/* else if ( name == "Brack_L"){
+		else if ( name == "Brack_L"){
+			debug(cerr << "parsing Brack_L \n");
 			Node* node = new Node( 0 );
 			current->set_link( node );
-			current = node;
+			iter++;
+			node -> set_link( (expr_tree::Expression*)
+					  parse_to_Expr_tree_recusive( &iter, end ).expr() 
+					);
 			
 		} else if ( name == "Brack_R"){
-			//const token::Brack_L* item = (token::Brack_L*) tok; // unnecessary
-			//Node* node = new Node( 0 );
-			// go up
-			current->set_link( node );
-			current = node;
+			debug("parsing Brack_R \n");
+			iter++;
+			return *tree;
 			
-		} */ else {
+		} else {
 			// may be an exeption
 			cerr << "Unknow token '" << name << "'\n";
 		}
 	}
 	
 	return *tree;
+}
+
+namespace expr_tree { // Expr_tree& parse_to_Expr_tree(list_Token&)
+	
+Expr_tree& parse_to_Expr_tree(list_Token& lst) {
+	list_Token::const_iterator iter = lst.begin();
+	return parse_to_Expr_tree_recusive(&iter, lst.end());
 }
 
 }// namespace expt_tree

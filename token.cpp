@@ -14,6 +14,7 @@
 #include <assert.h> 
 
 #include "token.hpp"
+#include "BUILD.H"
 
 using namespace std;
 using namespace token;

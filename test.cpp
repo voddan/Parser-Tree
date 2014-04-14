@@ -13,6 +13,8 @@
 #include "expr_tree.hpp"
 #include "utils.hpp"
 
+#include "BUILD.H"
+
 using namespace std;
 using namespace utils;
 

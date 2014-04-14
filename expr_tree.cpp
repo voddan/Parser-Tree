@@ -69,10 +69,11 @@ Expr_tree& parse_to_Expr_tree_recursive(list_Token::const_iterator* iter_pointer
 			node -> set_link( (expr_tree::Expression*)
 					  parse_to_Expr_tree_recursive( &iter, end ).expr() 
 					);
-			if(end == iter) break;
+			iter--; // because of the for() loop
 			
 		} else if ( name == "Brack_R"){
 			debug_detail("parsing Brack_R \n");
+			iter++;
 			return *tree;
 		} else {
 			// may be an exeption

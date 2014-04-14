@@ -24,6 +24,8 @@ void print_test_name(string name){
 
 void test_Token_main();
 void test_Token_parse();
+void test_Expr_tree_parse();
+void test_Expr_tree_optimize();
 
 int main(){
 	print_test_name("test.cpp");
@@ -32,11 +34,16 @@ int main(){
 	
 	test_Token_parse();
 	
+	test_Expr_tree_parse();
+	
+	test_Expr_tree_optimize();
+	
 	return 0;
 }
 
 void test_Token_main(){
 	print_test_name("Token_main");
+	// tests class Token
 	
 	using namespace token;
 	list<Token*> lst;
@@ -72,14 +79,82 @@ void test_Token_main(){
 
 void test_Token_parse(){
 	print_test_name("Token_parse");
+	// tests parsing string to tokens
 	
-	//using namespace token;
+	string strings[] = {
+		"  123 +100 + (   400+)  ",
+		"  123 +100 +  400  ",
+		"  123 +100 + 0 + 400 + 0 ",
+		"  123 +100 + 0 + 400 + 0 + 0 + 0 + ",
+		"  123 +100 +  0 +  ",
+		"  123 +100 +  400 + ",
+		"    ",
+		"__END__"
+	};
 	
-	/////
-	char str1[] = "  123 +100 + (   400+)  ";
+	for(int i = 0; strings[i] != "__END__"; i++){
+		cout << '"' << strings[i] << '"' << '\n';
+		
+		list_Token list_of_Tokens = token::parse_to_Token_list(strings[i]);
+		cout << list_of_Tokens;
+	}
+
+}
+
+void test_Expr_tree_parse(){
+	print_test_name("Expr_tree_parse");
+	// tests parsing tokens to expressions
 	
-	list<Token*> list_of_Tokens = token::parse_to_Token_list(str1);
-	cout << list_of_Tokens;
+	string strings[] = {
+		"  123 +100 + (   400+)  ",
+		"  123 +100 +  400  ",
+		"  123 +100 + 0 + 400 + 0 ",
+		"  123 +100 + 0 + 400 + 0 + 0 + 0 + ",
+		"  123 +100 +  0 +  ",
+		"  123 +100 +  400 + ",
+		"    ",
+		"__END__"
+	};
+	
+	for(int i = 0; strings[i] != "__END__"; i++){
+		cout << '"' << strings[i] << '"' << '\n';
+		
+		list_Token list_of_Tokens = token::parse_to_Token_list(strings[i]);
+		//cout << list_of_Tokens;
+		
+		Expr_tree tree_of_Expr = expr_tree::parse_to_Expr_tree(list_of_Tokens);
+		cout << tree_of_Expr.to_string() << '\n';
+	}
+
+}
+
+void test_Expr_tree_optimize(){
+	print_test_name("Expr_tree_optimize");
+	// tests optimazing expressions
+	
+	string strings[] = {
+		"  123 +100 + (   400+)  ",
+		"  123 +100 +  400  ",
+		"  123 +100 + 0 + 400 + 0 ",
+		"  123 +100 + 0 + 400 + 0 + 0 + 0 + ",
+		"  123 +100 +  0 +  ",
+		"  123 +100 +  400 + ",
+		"    ",
+		"__END__"
+	};
+	
+	for(int i = 0; strings[i] != "__END__"; i++){
+		cout << '"' << strings[i] << '"' << '\n';
+		
+		list_Token list_of_Tokens = token::parse_to_Token_list(strings[i]);
+		//cout << list_of_Tokens;
+		
+		Expr_tree tree_of_Expr = expr_tree::parse_to_Expr_tree(list_of_Tokens);
+		
+		tree_of_Expr.optimize();
+		
+		cout << tree_of_Expr.to_string() << '\n';
+	}
 
 }
 

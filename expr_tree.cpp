@@ -51,7 +51,8 @@ Expr_tree& parse_to_Expr_tree(list_Token& lst) {
 			current->set_link( plus );
 			current = plus;
 			
-		} /* else if ( name == "Brack_L"){
+		} // use recursion !!!
+		/* else if ( name == "Brack_L"){
 			Node* node = new Node( 0 );
 			current->set_link( node );
 			current = node;

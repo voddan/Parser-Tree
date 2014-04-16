@@ -35,18 +35,6 @@ class list_Token: public list<Token*> {
 	public: ~list_Token();
 };
 
-/*
-list_Token::~list_Token() {
-	debug("list_Token is out\n"); 
-	for(list_Token::iterator iter = this->begin();
-			iter != this->end();
-			iter++) {
-		// delete *iter;
-		// a problem with warnings
-	}
-}
-// */
-
 class Token{
 	public:
 		Token(const string name) : _name(name) {}

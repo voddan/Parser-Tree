@@ -38,16 +38,20 @@ class Token;
 	
 class list_Token: public list<Token*> {
 	public:
-		~list_Token() {
-			debug("list_Token is out\n"); 
-			for(list_Token::iterator iter = this->begin();
-					iter != this->end();
-					iter++) {
-				//delete *iter;
-				// a problem with warnings
-			}
-		}
+		~list_Token();
 };
+
+/*
+list_Token::~list_Token() {
+	debug("list_Token is out\n"); 
+	for(list_Token::iterator iter = this->begin();
+			iter != this->end();
+			iter++) {
+		// delete *iter;
+		// a problem with warnings
+	}
+}
+// */
 
 class Token{
 	public:
@@ -57,7 +61,8 @@ class Token{
 		virtual string to_string() const;
 		//---------------------------------
 		
-		static const char* parse(const char* pointer, list_Token& lst); // how make me to override?
+		static const char* parse(const char* pointer, list_Token& lst); // how do you make me to override?
+		
 		/*
 		virtual list_Token::const_iterator construct(
 				list_Token::const_iterator iter,
@@ -69,6 +74,8 @@ class Token{
 	private:
 		const string _name;
 };
+
+
 
 
 } // namespace token

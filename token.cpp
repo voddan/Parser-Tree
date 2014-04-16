@@ -21,6 +21,19 @@
 using namespace std;
 using namespace token;
 
+// why do I do this here, but not in token.hpp
+//*
+token::list_Token::~list_Token() {
+	debug("list_Token is out\n"); 
+	for(list_Token::iterator iter = this->begin();
+			iter != this->end();
+			iter++) {
+		delete *iter;
+		// a problem with warnings
+	}
+}
+// */
+
 namespace token { // string to_string() const
 	
 string Token::to_string() const {

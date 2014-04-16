@@ -55,7 +55,7 @@ char str1[] = "  123 +100 +  (400 ) + 1 + 1";
 //har str1[] = "    (1)";
 
 // TODO: optimaze Node()
-// TODO: split parsing to Expression
+// TODO: move parsing to Expression
 // TODO: extract Printrable
 // TODO: mem leak: list_Token, Expr_tree
 ////////////////////////////////////////////////////////////////////////

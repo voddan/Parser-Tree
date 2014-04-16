@@ -27,18 +27,12 @@
 using namespace std;
 //----------------------------------------------------------------------
 
-inline int char_to_int(char ch) {
-	assert( isdigit(ch) );
-	return ch - '0';
-}
-
 namespace token {
 	
 class Token;
 	
 class list_Token: public list<Token*> {
-	public:
-		~list_Token();
+	public: ~list_Token();
 };
 
 /*
@@ -63,24 +57,19 @@ class Token{
 		
 		static const char* parse(const char* pointer, list_Token& lst); // how do you make me to override?
 		
-		/*
 		virtual list_Token::const_iterator construct(
 				list_Token::const_iterator iter,
 				Expression* *current) {
 			// may be an exeption
 			cerr << "Unknow token '" << (*iter)->name() << "'\n";
-			return iter;
-		} // */
+			return ++iter;
+		}
 	private:
 		const string _name;
 };
 
-
-
-
 } // namespace token
 ////////////////////////////////////////////////////////////////////////
-
 
 namespace token {
 
@@ -90,23 +79,14 @@ class Num: public Token{
 		int value() const {return _value;}
 		virtual string to_string() const;
 		//---------------------------------
-
-		static const char* parse(const char* pointer, list_Token& lst){
-			char ch;
-			
-			if( !isdigit(ch = *pointer) ) return pointer;
-			
-			pointer += 1;
-			int num = char_to_int(ch);
-			
-			while( isdigit(ch = *pointer) ) {
-				pointer += 1;
-				num *= 10;
-				num += char_to_int(ch);
-			}
-			
-			lst.push_back(new Num(num));
-			return pointer;
+		static const char* parse(const char* pointer, list_Token& lst);
+		
+		virtual list_Token::const_iterator construct(
+				list_Token::const_iterator iter,
+				Expression* *current) {
+			const token::Num* tok = (token::Num*) *iter;
+			(*current)->set_link( (Expression*) new Num( tok->value() ));
+			return ++iter;		
 		}
 	private:
 		const int _value;
@@ -122,14 +102,8 @@ class B_Oper: public Token{
 class Plus : public B_Oper {
 	public: 
 		Plus() : B_Oper("+") {}
-	
-		static const char* parse(const char* pointer, list_Token& lst){
-			if( '+' == *pointer ){
-				lst.push_back(new Plus());
-				pointer += 1;
-			}
-			return pointer;
-		}
+		//---------------------------------
+		static const char* parse(const char* pointer, list_Token& lst);
 };
 
 class Brack_L: public Token{
@@ -137,14 +111,7 @@ class Brack_L: public Token{
 		Brack_L() : Token("Brack_L") {}
 		virtual string to_string() const;
 		//---------------------------------
-		
-		static const char* parse(const char* pointer, list_Token& lst){
-			if( '(' == *pointer ){
-				lst.push_back(new Brack_L());
-				pointer += 1;
-			}
-			return pointer;
-		}
+		static const char* parse(const char* pointer, list_Token& lst);
 };
 
 class Brack_R: public Token{
@@ -152,14 +119,7 @@ class Brack_R: public Token{
 		Brack_R() : Token("Brack_R") {}
 		virtual string to_string() const;
 		//---------------------------------
-		
-		static const char* parse(const char* pointer, list_Token& lst){
-			if( ')' == *pointer ){
-				lst.push_back(new Brack_R());
-				pointer += 1;
-			}
-			return pointer;
-		}
+		static const char* parse(const char* pointer, list_Token& lst);
 };
 
 } // namespace token

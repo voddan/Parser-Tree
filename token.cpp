@@ -68,6 +68,57 @@ string Brack_R::to_string() const {
 	
 } // namespace token
 
+
+inline int char_to_int(char ch) {
+	assert( isdigit(ch) );
+	return ch - '0';
+}
+
+namespace token { // static const char* parse(const char* pointer, list_Token& lst)
+
+const char* Num::parse(const char* pointer, list_Token& lst){
+	char ch;
+	
+	if( !isdigit(ch = *pointer) ) return pointer;
+	
+	pointer += 1;
+	int num = char_to_int(ch);
+	
+	while( isdigit(ch = *pointer) ) {
+		pointer += 1;
+		num *= 10;
+		num += char_to_int(ch);
+	}
+	
+	lst.push_back(new Num(num));
+	return pointer;
+}
+
+const char* Plus::parse(const char* pointer, list_Token& lst){
+	if( '+' == *pointer ){
+		lst.push_back(new Plus());
+		pointer += 1;
+	}
+	return pointer;
+}
+
+const char* Brack_L::parse(const char* pointer, list_Token& lst){
+	if( '(' == *pointer ){
+		lst.push_back(new Brack_L());
+		pointer += 1;
+	}
+	return pointer;
+}
+
+const char* Brack_R::parse(const char* pointer, list_Token& lst){
+			if( ')' == *pointer ){
+				lst.push_back(new Brack_R());
+				pointer += 1;
+			}
+			return pointer;
+		}
+
+} // namespace token
 /*
 const char* parse_space(const char* pointer, token::list_Token& lst){  // const ??? (char const * str)
 	while(' ' == *pointer)

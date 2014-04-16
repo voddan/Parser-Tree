@@ -54,13 +54,8 @@ class Token{
 		Token(const string name) : _name(name) {}
 		virtual ~Token() {}
 		const string name() const {return _name;}
+		virtual string to_string() const;
 		//---------------------------------
-		
-		virtual string to_string() const {
-			ostringstream str;
-			str << "Token(" << _name << ")";
-			return str.str();
-		} //*/
 		
 		static const char* parse(const char* pointer, list_Token& lst); // how make me to override?
 		/*
@@ -85,14 +80,9 @@ namespace token {
 class Num: public Token{
 	public:
 		Num(int value) : Token("Num"), _value(value) {}
-		
 		int value() const {return _value;}
-		
-		virtual string to_string() const{
-			ostringstream str;
-			str << "Num(" << _value << ")";
-			return str.str();
-		}
+		virtual string to_string() const;
+		//---------------------------------
 
 		static const char* parse(const char* pointer, list_Token& lst){
 			char ch;
@@ -118,12 +108,8 @@ class Num: public Token{
 class B_Oper: public Token{
 	public:
 		B_Oper(string name) : Token(name) {}
-		
-		virtual string to_string() const{
-			ostringstream str;
-			str << "B-Oper("  << "__" << name() << "__" << ")";
-			return str.str();
-		}
+		virtual string to_string() const;
+		//---------------------------------
 };
 
 class Plus : public B_Oper {
@@ -142,12 +128,8 @@ class Plus : public B_Oper {
 class Brack_L: public Token{
 	public:
 		Brack_L() : Token("Brack_L") {}
-		
-		virtual string to_string() const{
-			ostringstream str;
-			str << "Brack_L'('";
-			return str.str();
-		}
+		virtual string to_string() const;
+		//---------------------------------
 		
 		static const char* parse(const char* pointer, list_Token& lst){
 			if( '(' == *pointer ){
@@ -161,12 +143,8 @@ class Brack_L: public Token{
 class Brack_R: public Token{
 	public:
 		Brack_R() : Token("Brack_R") {}
-		
-		virtual string to_string() const{
-			ostringstream str;
-			str << "Brack_R')'";
-			return str.str();
-		}
+		virtual string to_string() const;
+		//---------------------------------
 		
 		static const char* parse(const char* pointer, list_Token& lst){
 			if( ')' == *pointer ){
@@ -178,14 +156,6 @@ class Brack_R: public Token{
 };
 
 } // namespace token
-////////////////////////////////////////////////////////////////////////
-/*
-namespace token {
-	
-list_Token& parse_to_Token_list(string str);
-
-}// namespace token
-*/
 ////////////////////////////////////////////////////////////////////////
 
 typedef token::Token Token;

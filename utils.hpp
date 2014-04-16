@@ -42,7 +42,7 @@ ostream& operator<<(ostream& str, list<Token*>& lst) { // conflict with list - l
 	return str;
 } 
 
-/*
+/*  // may be implemplemented with Printable
 template<typename T> 
 ostream& operator<<(ostream& str, list<T>& lst) {
 	str << "list<T>[ \n";

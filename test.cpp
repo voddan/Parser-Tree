@@ -9,8 +9,7 @@
 #include <string>
 #include <list>
 
-#include "token.hpp"
-#include "expr_tree.hpp"
+#include "parsing_common.hpp"
 #include "utils.hpp"
 
 #include "BUILD.H"
@@ -42,6 +41,17 @@ int main(){
 	
 	return 0;
 }
+
+string strings_to_parse[] = {
+		"  123 +100 + (   400+)  ",
+		"  123 +100 +  400  ",
+		"  123 +100 + 0 + 400 + 0 ",
+		"  123 +100 + 0 + 400 + 0 + 0 + 0 + ",
+		"  123 +100 +  0 +  ",
+		"  123 +100 +  400 + ",
+		"    ",
+		"__END__"
+	};
 
 void test_Token_main(){
 	print_test_name("Token_main");
@@ -83,16 +93,7 @@ void test_Token_parse(){
 	print_test_name("Token_parse");
 	// tests parsing string to tokens
 	
-	string strings[] = {
-		"  123 +100 + (   400+)  ",
-		"  123 +100 +  400  ",
-		"  123 +100 + 0 + 400 + 0 ",
-		"  123 +100 + 0 + 400 + 0 + 0 + 0 + ",
-		"  123 +100 +  0 +  ",
-		"  123 +100 +  400 + ",
-		"    ",
-		"__END__"
-	};
+	string* strings = strings_to_parse;
 	
 	for(int i = 0; strings[i] != "__END__"; i++){
 		cout << '"' << strings[i] << '"' << '\n';
@@ -103,20 +104,11 @@ void test_Token_parse(){
 
 }
 
-void test_Expr_tree_parse(){
+void test_Expr_tree_parse(){ 
 	print_test_name("Expr_tree_parse");
 	// tests parsing tokens to expressions
 	
-	string strings[] = {
-		"  123 +100 + (   400+)  ",
-		"  123 +100 +  400  ",
-		"  123 +100 + 0 + 400 + 0 ",
-		"  123 +100 + 0 + 400 + 0 + 0 + 0 + ",
-		"  123 +100 +  0 +  ",
-		"  123 +100 +  400 + ",
-		"    ",
-		"__END__"
-	};
+	string* strings = strings_to_parse;
 	
 	for(int i = 0; strings[i] != "__END__"; i++){
 		cout << '"' << strings[i] << '"' << '\n';
@@ -134,16 +126,7 @@ void test_Expr_tree_optimize(){
 	print_test_name("Expr_tree_optimize");
 	// tests optimazing expressions
 	
-	string strings[] = {
-		"  123 +100 + (   400+)  ",
-		"  123 +100 +  400  ",
-		"  123 +100 + 0 + 400 + 0 ",
-		"  123 +100 + 0 + 400 + 0 + 0 + 0 + ",
-		"  123 +100 +  0 +  ",
-		"  123 +100 +  400 + ",
-		"    ",
-		"__END__"
-	};
+	string* strings = strings_to_parse;
 	
 	for(int i = 0; strings[i] != "__END__"; i++){
 		cout << '"' << strings[i] << '"' << '\n';

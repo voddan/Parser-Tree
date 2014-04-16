@@ -15,14 +15,12 @@
 #include <sstream>
 #include <string>
 
-//#include "token.hpp"
 #include "BUILD.H"
 
-//using namespace std;
 typedef std::string string;
-//typedef std::ostream ostream;
 //----------------------------------------------------------------------
 // where should I place private helper classes like this?
+//typedef std::ostream ostream;
 class Tab {
 	public:
 		Tab(int tab): _tab(tab) {}
@@ -34,7 +32,7 @@ class Tab {
 std::ostream& operator<< (std::ostream& stream, const Tab& tab);
 
 //----------------------------------------------------------------------
-namespace expr_tree { // namespace expr_tree
+namespace expr_tree {
 	
 class Expression{ 
 	public:
@@ -70,9 +68,13 @@ class Expr_tree  { // not an Expression
 	private:
 		// const Expression* _expr;
 		Expression* _expr;
-};
-		
-		
+}; 
+
+} // namespace expr_tree
+////////////////////////////////////////////////////////////////////////
+
+namespace expr_tree {
+	
 class Node: public Expression {
 	public:
 		Node(Expression* link = 0) : Expression("Node"), _link(link) {}
@@ -97,8 +99,6 @@ class Node: public Expression {
 		Expression* _link; // will children get this?
 };
 
-
-
 class Num: public Expression {
 	public:
 		Num(int value) : Expression("Num"), _value(value) {}
@@ -118,7 +118,6 @@ class Num: public Expression {
 		const int _value;
 };
 
-//*
 class B_Oper: public Expression{
 	public:
 		B_Oper(string name, Expression* left = 0, Expression* right = 0) : 
@@ -203,16 +202,6 @@ class Plus : public B_Oper {
 
 } // namespace expr_tree
 ////////////////////////////////////////////////////////////////////////
-/*
-#include "token.hpp"
-namespace expr_tree {
-	
-Expr_tree& parse_to_Expr_tree(token::list_Token& lst);
-
-} // namespace expr_tree
-*/
-////////////////////////////////////////////////////////////////////////
-
 
 typedef expr_tree::Expression Expression;
 typedef expr_tree::Expr_tree Expr_tree;

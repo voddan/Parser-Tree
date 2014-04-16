@@ -2,7 +2,7 @@
 # g++ -Wall -o "%e" "%f"
 
 ## libs list ##
-libs_list = token.o expr_tree.o
+libs_list = token.o expr_tree.o parsing_common.o
 
 
 ## main ##
@@ -31,4 +31,9 @@ token.o: BUILD.H token.cpp token.hpp
 ## expr_tree lib ##
 expr_tree.o: BUILD.H expr_tree.cpp expr_tree.hpp
 	g++ -Wall -c "expr_tree.cpp"
+	
+## parsing_common lib ##
+# should I depend on other .hpp ?
+parsing_common.o: BUILD.H parsing_common.cpp parsing_common.hpp token.hpp expr_tree.hpp
+	g++ -Wall -c "parsing_common.cpp"
 

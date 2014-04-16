@@ -21,7 +21,41 @@
 using namespace std;
 using namespace token;
 
+namespace token { // string to_string() const
+	
+string Token::to_string() const {
+			ostringstream str;
+			str << "Token(" << _name << ")";
+			return str.str();
+		}
+		
+string Num::to_string() const {
+		ostringstream str;
+		str << "Num(" << _value << ")";
+		return str.str();
+	}
+	
+string B_Oper::to_string() const {
+		ostringstream str;
+		str << "B-Oper("  << "__" << name() << "__" << ")";
+		return str.str();
+	}
+	
+string Brack_L::to_string() const {
+		ostringstream str;
+		str << "Brack_L'('";
+		return str.str();
+	}
+	
+string Brack_R::to_string() const {
+			ostringstream str;
+			str << "Brack_R')'";
+			return str.str();
+		}
+	
+} // namespace token
 
+/*
 const char* parse_space(const char* pointer, token::list_Token& lst){  // const ??? (char const * str)
 	while(' ' == *pointer)
 		pointer += 1;
@@ -59,3 +93,4 @@ list_Token& parse_to_Token_list(string str){
 }
 
 }// namespace token
+*/

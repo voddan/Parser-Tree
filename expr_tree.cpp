@@ -13,11 +13,10 @@
 #include <cctype>
 #include <assert.h> 
 
+#include "parsing_common.hpp"
 #include "expr_tree.hpp"
-#include "token.hpp"
 #include "BUILD.H"
 
-#include "parsing_common.hpp"
 
 using namespace std;
 
@@ -27,7 +26,7 @@ ostream& operator<< (ostream& stream, const Tab& tab) {
 	}
 	return stream;
 }
-
+/*
 Expr_tree& parse_to_Expr_tree_recursive(list_Token::const_iterator* iter_pointer, const list_Token::const_iterator end) {
 	debug_detail("parse_to_Expr_tree_recursive( " << (***iter_pointer).to_string() << " )\n");
 	
@@ -94,6 +93,7 @@ Expr_tree& parse_to_Expr_tree(list_Token& lst) {
 }
 
 }// namespace expt_tree
+*/
 
 namespace expr_tree { // string to_string(int)
 	

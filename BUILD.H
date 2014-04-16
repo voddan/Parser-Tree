@@ -13,7 +13,7 @@
 #define _HEAVY_  	3
 
 // prints debug information to cerr
-#define _DEBUG_  _LIGHT_ 
+#define _DEBUG_  _NOPE_ 
 ////////////////////////////////////////////////////////////////////////
 #include <iostream>
 

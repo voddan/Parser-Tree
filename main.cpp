@@ -38,6 +38,8 @@
 
 #include "BUILD.H"
 
+#include "parsing_common.hpp"
+
 using namespace std;
 using namespace utils;
 
@@ -69,9 +71,9 @@ int main(){
 	Expr_tree tree_of_Expr = expr_tree::parse_to_Expr_tree(list_of_Tokens);
 	cout << tree_of_Expr.to_string() << '\n';
 	
-	tree_of_Expr.optimize();
+	//tree_of_Expr.optimize();
 	
-	cout << tree_of_Expr.to_string() << '\n';
+	//cout << tree_of_Expr.to_string() << '\n';
 	
 	return 0;
 }

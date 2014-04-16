@@ -21,6 +21,7 @@
 #include <cctype>
 #include <assert.h>
 
+#include "expr_tree.hpp"
 #include "BUILD.H"
 
 using namespace std;
@@ -33,7 +34,20 @@ inline int char_to_int(char ch) {
 
 namespace token {
 	
-class list_Token;
+class Token;
+	
+class list_Token: public list<Token*> {
+	public:
+		~list_Token() {
+			debug("list_Token is out\n"); 
+			for(list_Token::iterator iter = this->begin();
+					iter != this->end();
+					iter++) {
+				//delete *iter;
+				// a problem with warnings
+			}
+		}
+};
 
 class Token{
 	public:
@@ -49,21 +63,18 @@ class Token{
 		} //*/
 		
 		static const char* parse(const char* pointer, list_Token& lst); // how make me to override?
+		/*
+		virtual list_Token::const_iterator construct(
+				list_Token::const_iterator iter,
+				Expression* *current) {
+			// may be an exeption
+			cerr << "Unknow token '" << (*iter)->name() << "'\n";
+			return iter;
+		} // */
 	private:
 		const string _name;
 };
 
-class list_Token: public list<Token*> {
-	public:
-		~list_Token() {
-			debug("list_Token is out\n"); 
-			for(list_Token::iterator iter = this->begin();
-					iter != this->end();
-					iter++) {
-				delete *iter;
-			}
-		}
-};
 
 } // namespace token
 ////////////////////////////////////////////////////////////////////////
@@ -168,12 +179,13 @@ class Brack_R: public Token{
 
 } // namespace token
 ////////////////////////////////////////////////////////////////////////
-
+/*
 namespace token {
 	
 list_Token& parse_to_Token_list(string str);
 
 }// namespace token
+*/
 ////////////////////////////////////////////////////////////////////////
 
 typedef token::Token Token;

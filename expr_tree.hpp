@@ -11,25 +11,27 @@
 #ifndef _EXPR_TREE_HPP_
 #define _EXPR_TREE_HPP_
 
-#include <string>
 #include <algorithm>
 #include <sstream>
+#include <string>
 
-#include "token.hpp"
+//#include "token.hpp"
 #include "BUILD.H"
 
 //using namespace std;
+typedef std::string string;
+//typedef std::ostream ostream;
 //----------------------------------------------------------------------
 // where should I place private helper classes like this?
 class Tab {
 	public:
 		Tab(int tab): _tab(tab) {}
-		friend ostream& operator<< (ostream& stream, const Tab& tab);
+		friend std::ostream& operator<< (std::ostream& stream, const Tab& tab);
 	private:
 		const int _tab;
 };
 
-ostream& operator<< (ostream& stream, const Tab& tab);
+std::ostream& operator<< (std::ostream& stream, const Tab& tab);
 
 //----------------------------------------------------------------------
 namespace expr_tree { // namespace expr_tree
@@ -201,11 +203,14 @@ class Plus : public B_Oper {
 
 } // namespace expr_tree
 ////////////////////////////////////////////////////////////////////////
+/*
+#include "token.hpp"
 namespace expr_tree {
 	
 Expr_tree& parse_to_Expr_tree(token::list_Token& lst);
 
 } // namespace expr_tree
+*/
 ////////////////////////////////////////////////////////////////////////
 
 

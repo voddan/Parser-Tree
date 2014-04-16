@@ -17,6 +17,8 @@
 #include "token.hpp"
 #include "BUILD.H"
 
+#include "parsing_common.hpp"
+
 using namespace std;
 
 ostream& operator<< (ostream& stream, const Tab& tab) {

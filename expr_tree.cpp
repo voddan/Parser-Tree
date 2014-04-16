@@ -20,12 +20,24 @@
 
 using namespace std;
 
+// where should I place private helper classes like this?
+//typedef std::ostream ostream;
+class Tab {
+	public:
+		Tab(int tab): _tab(tab) {}
+		friend std::ostream& operator<< (std::ostream& stream, const Tab& tab);
+	private:
+		const int _tab;
+};
+
 ostream& operator<< (ostream& stream, const Tab& tab) {
 	for (int i = tab._tab; i > 0; i--) {
 		stream << '\t';
 	}
 	return stream;
 }
+//----------------------------------------------------------------------
+
 /*
 Expr_tree& parse_to_Expr_tree_recursive(list_Token::const_iterator* iter_pointer, const list_Token::const_iterator end) {
 	debug_detail("parse_to_Expr_tree_recursive( " << (***iter_pointer).to_string() << " )\n");
@@ -148,3 +160,67 @@ string B_Oper::to_string(int tab) const {
 }
 
 }// namespace expt_tree
+
+
+namespace expr_tree { // Expression* optimize()
+	
+Expression* Node::optimize() { 
+	if(_link) _link = _link->optimize();
+	// should I do like this?
+	
+	return this;  // debug
+	/*
+	Expression* t = _link;
+	delete this;
+	return t; // */
+}
+
+Expression* B_Oper::optimize() { 
+	if(_left)  _left  = _left->optimize();
+	if(_right) _right = _right->optimize();
+	
+	// pay attention
+	if(_left && _right &&
+	   _left ->name() == "Num" &&
+	   _right->name() == "Num") {
+		// strange bug
+		debug("optimize B_Oper(left is Num, right is Num)\n");
+		Num* t = new Num( calculate(
+					((Num*) _left )->value(),
+					((Num*) _right)->value() ) 
+				); 
+		delete this; 
+		return t; 
+	}
+	
+	return this;
+}
+
+Expression* Plus::optimize() { 
+	Expression* t = B_Oper::optimize(); // important !!
+	if(this != t) return t;
+	
+	if(get_left() &&
+	   get_left()->name() == "Num" &&
+	   ((Num*) get_left())->value() == 0) {
+		// strange bug
+		debug("optimize B_Oper[+](left is Num, left == 0)\n");
+		Expression* t = get_right();
+		//delete this; 
+		return t; 
+	}
+	
+	if(get_right() &&
+	   get_right()->name() == "Num" &&
+	   ((Num*) get_right())->value() == 0) {
+		// strange bug
+		debug("optimize B_Oper[+](right is Num, right == 0)\n");
+		Expression* t = get_left();
+		//delete this; 
+		return t; 
+	}
+	
+	return this;
+}
+		
+} // namespace expr_tree

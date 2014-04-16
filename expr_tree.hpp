@@ -18,18 +18,6 @@
 #include "BUILD.H"
 
 typedef std::string string;
-//----------------------------------------------------------------------
-// where should I place private helper classes like this?
-//typedef std::ostream ostream;
-class Tab {
-	public:
-		Tab(int tab): _tab(tab) {}
-		friend std::ostream& operator<< (std::ostream& stream, const Tab& tab);
-	private:
-		const int _tab;
-};
-
-std::ostream& operator<< (std::ostream& stream, const Tab& tab);
 
 //----------------------------------------------------------------------
 namespace expr_tree {
@@ -60,7 +48,6 @@ class Expr_tree  { // not an Expression
 		
 		string to_string() const;
 		//---------------------------------
-		
 		void optimize() { _expr = _expr->optimize(); }
 		
 		//Expression* expr() const { return _expr; };
@@ -81,17 +68,7 @@ class Node: public Expression {
 		virtual ~Node() { delete _link; }
 		virtual string to_string(int tab) const;
 		//---------------------------------
-		
-		virtual Expression* optimize() { 
-			if(_link) _link = _link->optimize();
-			// should I do like this?
-			
-			return this;  // debug
-			/*
-			Expression* t = _link;
-			delete this;
-			return t; // */
-		}
+		virtual Expression* optimize();
 		
 		virtual void set_link(Expression* link) { _link = link; }
 		virtual Expression* get_link() const 	{ return _link; }
@@ -104,7 +81,6 @@ class Num: public Expression {
 		Num(int value) : Expression("Num"), _value(value) {}
 		string to_string(int tab) const;
 		//---------------------------------
-		
 		const int value() { return _value; }
 		
 		virtual void set_link(Expression* link) {
@@ -126,26 +102,7 @@ class B_Oper: public Expression{
 		string to_string(int tab) const;
 		//---------------------------------
 		
-		virtual Expression* optimize() { 
-			if(_left)  _left  = _left->optimize();
-			if(_right) _right = _right->optimize();
-			
-			// pay attention
-			if(_left && _right &&
-			   _left ->name() == "Num" &&
-			   _right->name() == "Num") {
-				// strange bug
-				debug("optimize B_Oper(left is Num, right is Num)\n");
-				Num* t = new Num( calculate(
-							((Num*) _left )->value(),
-							((Num*) _right)->value() ) 
-						); 
-				delete this; 
-				return t; 
-			}
-			
-			return this;
-		}
+		virtual Expression* optimize();
 		
 		void set_left(Expression* left) { _left = left; }
 		Expression* get_left() const 	{ return _left; }
@@ -167,32 +124,7 @@ class Plus : public B_Oper {
 	public: 
 		Plus(Expression* left = 0, Expression* right = 0) : B_Oper("+", left,  right) {}
 		
-		virtual Expression* optimize() { 
-			Expression* t = B_Oper::optimize(); // important !!
-			if(this != t) return t;
-			
-			if(get_left() &&
-			   get_left()->name() == "Num" &&
-			   ((Num*) get_left())->value() == 0) {
-				// strange bug
-				debug("optimize B_Oper[+](left is Num, left == 0)\n");
-				Expression* t = get_right();
-				//delete this; 
-				return t; 
-			}
-			
-			if(get_right() &&
-			   get_right()->name() == "Num" &&
-			   ((Num*) get_right())->value() == 0) {
-				// strange bug
-				debug("optimize B_Oper[+](right is Num, right == 0)\n");
-				Expression* t = get_left();
-				//delete this; 
-				return t; 
-			}
-			
-			return this;
-		}
+		virtual Expression* optimize();
 		
 		//---------------------------------
 		virtual int calculate(int left_value, int right_value) {

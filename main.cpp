@@ -60,7 +60,6 @@ char str1[] = "  123 +100 +  (400  + (1 + 7))";
 //char str1[] = "    (1)";
 
 // TODO: optimaze Node()
-// TODO: move parsing to Expression
 // TODO: extract Printrable
 // TODO: mem leak: list_Token, Expr_tree
 ////////////////////////////////////////////////////////////////////////

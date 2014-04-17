@@ -17,14 +17,20 @@ namespace expr_tree {
 	
 Expr_tree& parse_to_Expr_tree(token::list_Token& lst);
 
-} // namespace expr_tree
+list_Token::const_iterator 
+	parse_to_Expr_tree_recursive(
+		list_Token::const_iterator iter,
+		Expression* const root );
 
+} // namespace expr_tree
+////////////////////////////////////////////////////////////////////////
 
 namespace token {
 	
 list_Token& parse_to_Token_list(string str);
 
 }// namespace token
+////////////////////////////////////////////////////////////////////////
 
 #endif // _PARSING_COMMON_HPP_
 

@@ -14,6 +14,7 @@
 #include <assert.h> 
 
 #include "token.hpp"
+#include "expr_tree.hpp"
 #include "BUILD.H"
 
 #include "parsing_common.hpp"
@@ -63,7 +64,7 @@ string Brack_R::to_string() const {
 		}
 	
 } // namespace token
-
+////////////////////////////////////////////////////////////////////////
 
 inline int char_to_int(char ch) {
 	assert( isdigit(ch) );
@@ -115,6 +116,7 @@ const char* Brack_R::parse(const char* pointer, list_Token& lst){
 		}
 
 } // namespace token
+////////////////////////////////////////////////////////////////////////
 
 namespace token { // list_Token::const_iterator construct( list_Token::const_iterator iter, Expression* *current)
 	
@@ -155,27 +157,15 @@ list_Token::const_iterator Brack_L::construct(
 		Expression* *current) const {
 	debug_detail("parsing Brack_L \n");
 	iter++;
-	cerr << "Token Brack_L is unsupported yet\n";
-	/*
-	Node* node = new Node( 0 );
-	(*current)->set_link( node );
 	
-	node -> set_link( parse_to_Expr_tree_recursive( &iter, end ).expr() );
-	*/
-	//iter--; // because of the for() loop
+	expr_tree::Node* node = new expr_tree::Node( 0 );
+	(*current)->set_link( node );
+	// does not move *current
+	
+	iter = expr_tree::parse_to_Expr_tree_recursive( iter, node );
+	
 	return iter;
 }
 
-/*
-list_Token::const_iterator Brack_R::construct(
-		list_Token::const_iterator iter,
-		Expression* *current) const {
-	debug_detail("parsing Brack_R \n");
-	iter++;
-	cerr << "Token Brack_R is unsupported yet\n";
-	// return from the whole parsing function
-	//return *tree;
-	return iter;
-} */
-	
 } // namespace token
+////////////////////////////////////////////////////////////////////////

@@ -47,14 +47,17 @@ using namespace utils;
 
 //char str1[] = "  123 +100 + (   400+)  ";
 //char str1[] = "  123 +100 +  (400 ) + 1 + 1";
+//char str1[] = "  123 +100 +  (400  + 1 + 1)";
+//char str1[] = "  123 +100 +  (400  + 1 + 1) + 1";
+char str1[] = "  123 +100 +  (400  + (1 + 7))";
 //char str1[] = "  123 +100 +  (400 ) + 1";
-char str1[] = "  123 +100 + 0 + 400 + 0 ";
+//char str1[] = "  123 +100 + 0 + 400 + 0 ";
 //char str1[] = "  123";
 //char str1[] = "  ";
 //char str1[] = "  123 +100 + 0 + 400 + 0 + 0 + 0 + ";
 //char str1[] = "  123 +100 +  0 +  ";
 //char str1[] = "  123 +100 +  400 + ";
-//har str1[] = "    (1)";
+//char str1[] = "    (1)";
 
 // TODO: optimaze Node()
 // TODO: move parsing to Expression
@@ -72,9 +75,9 @@ int main(){
 	Expr_tree tree_of_Expr = expr_tree::parse_to_Expr_tree(list_of_Tokens);
 	cout << tree_of_Expr.to_string() << '\n';
 	
-	//tree_of_Expr.optimize();
+	tree_of_Expr.optimize();
 	
-	//cout << tree_of_Expr.to_string() << '\n';
+	cout << tree_of_Expr.to_string() << '\n';
 	
 	return 0;
 }

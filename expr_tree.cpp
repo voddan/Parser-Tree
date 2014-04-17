@@ -91,7 +91,7 @@ string B_Oper::to_string(int tab) const {
 }
 
 }// namespace expt_tree
-
+////////////////////////////////////////////////////////////////////////
 
 namespace expr_tree { // Expression* optimize()
 	
@@ -155,3 +155,4 @@ Expression* Plus::optimize() {
 }
 		
 } // namespace expr_tree
+////////////////////////////////////////////////////////////////////////

@@ -7,6 +7,7 @@
  * */ 
 #include "parsing_common.hpp"
 
+/*
 Expr_tree& parse_to_Expr_tree_recursive(list_Token::const_iterator* iter_pointer, const list_Token::const_iterator end) {
 	debug_detail("parse_to_Expr_tree_recursive( " << (***iter_pointer).to_string() << " )\n");
 	
@@ -64,11 +65,39 @@ Expr_tree& parse_to_Expr_tree_recursive(list_Token::const_iterator* iter_pointer
 	
 	return *tree;
 }
+// */
 
+//*
+list_Token::const_iterator 
+	parse_to_Expr_tree_recursive(
+		list_Token::const_iterator iter,
+		Expression* const root ) {
+	// root - where to place
+	
+	debug_detail("parse_to_Expr_tree_recursive( " << (***iter_pointer).to_string() << " )\n");
+	using namespace expr_tree;
+	
+	Expression* current = root;
+	
+	while( !(*iter)->end() ) {
+		const Token* tok = *iter;
+		iter = tok->construct(iter, &current);
+	}
+	
+	return iter;
+} // */
+
+//*
 Expr_tree& expr_tree::parse_to_Expr_tree(list_Token& lst) {
-	list_Token::const_iterator iter = lst.begin();
-	return parse_to_Expr_tree_recursive(&iter, lst.end());
-}
+	using namespace expr_tree;
+	
+	Expression* root = new Node(0);
+	Expr_tree* tree = new Expr_tree( root );
+	
+	parse_to_Expr_tree_recursive(lst.begin(), root);
+	
+	return *tree;
+} // */
 
 
 
@@ -103,6 +132,8 @@ list_Token& token::parse_to_Token_list(string str){
 		if(parse_func_list.end() == iter_func)
 			iter_func = parse_func_list.begin();
 	}
+	
+	lst->push_back( new End() );
 	
 	return *lst;
 }

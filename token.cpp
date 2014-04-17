@@ -115,42 +115,67 @@ const char* Brack_R::parse(const char* pointer, list_Token& lst){
 		}
 
 } // namespace token
+
+namespace token { // list_Token::const_iterator construct( list_Token::const_iterator iter, Expression* *current)
+	
+list_Token::const_iterator Token::construct(
+		list_Token::const_iterator iter,
+		Expression* *current) const {
+	// may be an exeption
+	cerr << "Unknow token '" << (*iter)->name() << "'\n";
+	return ++iter;
+}
+	
+list_Token::const_iterator Num::construct(
+		list_Token::const_iterator iter,
+		Expression* *current) const {
+	const token::Num* tok = (token::Num*) *iter;
+	(*current)->set_link( new expr_tree::Num( tok->value() ));
+	return ++iter;		
+}
+
+list_Token::const_iterator Plus::construct(
+		list_Token::const_iterator iter,
+		Expression* *current) const {
+	debug_detail("parsing Pluss[+] \n");
+			
+	expr_tree::Plus* plus = new expr_tree::Plus( (*current)->get_link(), 0 );
+	(*current)->set_link( plus );
+	
+	// no way to implement this dump
+	// debug_heavy(tree->to_string()); 
+	
+	(*current) = plus;
+	
+	return ++iter;
+}
+
+list_Token::const_iterator Brack_L::construct(
+		list_Token::const_iterator iter,
+		Expression* *current) const {
+	debug_detail("parsing Brack_L \n");
+	iter++;
+	cerr << "Token Brack_L is unsupported yet\n";
+	/*
+	Node* node = new Node( 0 );
+	(*current)->set_link( node );
+	
+	node -> set_link( parse_to_Expr_tree_recursive( &iter, end ).expr() );
+	*/
+	//iter--; // because of the for() loop
+	return iter;
+}
+
 /*
-const char* parse_space(const char* pointer, token::list_Token& lst){  // const ??? (char const * str)
-	while(' ' == *pointer)
-		pointer += 1;
-	return pointer;
-}
-
-namespace token {
+list_Token::const_iterator Brack_R::construct(
+		list_Token::const_iterator iter,
+		Expression* *current) const {
+	debug_detail("parsing Brack_R \n");
+	iter++;
+	cerr << "Token Brack_R is unsupported yet\n";
+	// return from the whole parsing function
+	//return *tree;
+	return iter;
+} */
 	
-list_Token& parse_to_Token_list(string str){
-	using namespace token;
-	typedef const char* (*Parse_function)(const char*, list_Token&);
-	
-	list<Parse_function> parse_func_list;
-	
-	parse_func_list.push_back(Num::parse);
-	parse_func_list.push_back(Plus::parse);
-	parse_func_list.push_back(Brack_L::parse);
-	parse_func_list.push_back(Brack_R::parse);
-	
-	parse_func_list.push_front(parse_space);
-	//--------------------------------------------------------------
-	list_Token* lst = new list_Token();
-	
-	const char* pointer  = &str[0];
-	
-	list<Parse_function>::const_iterator iter_func = parse_func_list.begin();
-	while('\0' != *pointer){
-		pointer = (*iter_func)(pointer, *lst);
-		iter_func++;
-		if(parse_func_list.end() == iter_func)
-			iter_func = parse_func_list.begin();
-	}
-	
-	return *lst;
-}
-
-}// namespace token
-*/
+} // namespace token

@@ -40,20 +40,25 @@ class Token{
 		Token(const string name) : _name(name) {}
 		virtual ~Token() {}
 		const string name() const {return _name;}
-		virtual string to_string() const;
+		virtual string to_string() const; // token.cpp
 		//---------------------------------
 		
-		static const char* parse(const char* pointer, list_Token& lst); // how do you make me to override?
+		static const char* parse(const char* pointer, list_Token& lst); // token.cpp
+		// how do you make me to override?
 		
 		virtual list_Token::const_iterator construct(
 				list_Token::const_iterator iter,
-				Expression* *current) {
-			// may be an exeption
-			cerr << "Unknow token '" << (*iter)->name() << "'\n";
-			return ++iter;
-		}
+				Expression* *current) const; // token.cpp
+				
+		virtual bool end() { return false; }
 	private:
 		const string _name;
+};
+
+class End : public Token {
+	public:
+		End() : Token("End") {}
+		virtual bool end() { return true; }
 };
 
 } // namespace token
@@ -71,11 +76,7 @@ class Num: public Token{
 		
 		virtual list_Token::const_iterator construct(
 				list_Token::const_iterator iter,
-				Expression* *current) {
-			const token::Num* tok = (token::Num*) *iter;
-			(*current)->set_link( (Expression*) new Num( tok->value() ));
-			return ++iter;		
-		}
+				Expression* *current) const;
 	private:
 		const int _value;
 };
@@ -92,6 +93,10 @@ class Plus : public B_Oper {
 		Plus() : B_Oper("+") {}
 		//---------------------------------
 		static const char* parse(const char* pointer, list_Token& lst);
+		
+		virtual list_Token::const_iterator construct(
+				list_Token::const_iterator iter,
+				Expression* *current) const;
 };
 
 class Brack_L: public Token{
@@ -100,6 +105,10 @@ class Brack_L: public Token{
 		virtual string to_string() const;
 		//---------------------------------
 		static const char* parse(const char* pointer, list_Token& lst);
+		
+		virtual list_Token::const_iterator construct(
+				list_Token::const_iterator iter,
+				Expression* *current) const;
 };
 
 class Brack_R: public Token{
@@ -108,6 +117,13 @@ class Brack_R: public Token{
 		virtual string to_string() const;
 		//---------------------------------
 		static const char* parse(const char* pointer, list_Token& lst);
+		
+		/*
+		virtual list_Token::const_iterator construct(
+				list_Token::const_iterator iter,
+				Expression* *current) const; */
+				
+		virtual bool end() { return true; }
 };
 
 } // namespace token

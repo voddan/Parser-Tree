@@ -61,6 +61,10 @@ char str1[] = "  123 +100 +  (400  + (1 + 7))";
 //char str1[] = "    (1)";
 
 // TODO: optimaze Node()
+// TODO: fix the parsing order
+// TODO: add Mult (with proper order)
+// TODO: add Variable and Diff
+// TODO: differentiation
 // TODO: extract Printrable
 // TODO: mem leak: list_Token, Expr_tree
 ////////////////////////////////////////////////////////////////////////
